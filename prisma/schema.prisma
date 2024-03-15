@@ -17,50 +17,148 @@ datasource db {
   schemas      = ["auth", "public"]
 }
 
+enum Rank {
+  Platform_Pioneer // Initial Level of all Developers
+  Neural_Network_Architect // Ai Engineer who designs and builds neural network models for the platform
+  Data_Alchemist // Data Scientist who prepares, cleans, and manipulates data for effective AI training.
+  Algorithmic_Strategist // DSA engineer who Selects and implements suitable algorithms for platform tasks.
+  Machine_Learning_Mastermind //  Possesses the highest level of expertise in machine learning techniques.
+  Security_Sentinel // Cyber Engineer who implements robust security measures to protect the platform and its AI components.
+  Cloud_Maestro // Cloud Engineer who  manages and optimizes cloud infrastructure for efficient performance.
+  UI_UX_Architect //Ui Ux Designer who Designs user interfaces optimized for better interaction.
+
+  @@schema("public")
+}
+
 model profile {
-  id             String           @id @db.Uuid
-  firstname      String?
-  lastname       String?
-  avatar_url     String?
-  email          String           @unique
-  onboarded      Boolean          @default(false)
-  qualifications Qualifications[]
-  linkedin_url   String?
-  twitter_url    String?
-  github_url     String?
-  badges         Badges[]
-  projects       Projects[]
+  id               String           @id @db.Uuid
+  firstname        String // firstname of the developer
+  lastname         String //lastname of the developer
+  profile_headline String? // profile headline to be shown beneath the name
+  profile_picture  String? //  profile picture of the user
+  about            String? // about the developer
+  email            String           @unique
+  onboarded        Boolean          @default(false)
+  linkedin_url     String? // linkedin url of the developer
+  x_url            String? //  X url of the developer (twitter)
+  github_url       String? // github url of the developer
+  positions        Position[] // ranks of the developer
+  qualifications   Qualifications[] // qualification of the developer
+  badges           Badges[] // badges of the developer
+  projects         Projects[] // projects of the developer
+  experiences      Experiences[] // experiences of the developer
+  skills           Skills[] // skills of the developer
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
 
   @@map("profile")
   @@schema("public")
 }
 
-model Qualifications {
-  id           String  @id @unique
-  isVerified   Boolean @default(false)
-  document_url String?
-  profile_id   String
-  profile      profile @relation(fields: [profile_id], references: [id], onDelete: Cascade)
+model Position {
+  id         String   @id
+  rank       Rank     @default(Platform_Pioneer) // Based on skills , qualification and projects (priority based on same hirerachy)
+  level      Int      @default(0) // ( Lv1 to Lv10) 
+  profile_id String // profile to which the position belong to
+  profile    profile  @relation(fields: [profile_id], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@index([profile_id])
   @@schema("public")
 }
 
-model Badges {
-  id String @id @unique
+model Qualifications {
+  id             String   @id @unique
+  qualification  String //Example Bachelor's in Technology
+  school         String // Boston University
+  field_of_study String //Business
+  start_date     DateTime // start date of the qualification
+  end_date       DateTime // (or expected)
+  grade          String // grade in the qualification
+  isVerified     Boolean  @default(false) // Verification takes around 30 mins and sometimes 1 day or more .
+  document_url   String? // Document related to qualification used for verification
+  Skills         Skills[] // All the skills  should be mentioned in the certificate provided by you  for verification purposes.
+  profile_id     String // profile to which the Qualification belong to 
+  profile        profile  @relation(fields: [profile_id], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  profile_id String
-  profile    profile @relation(fields: [profile_id], references: [id], onDelete: Cascade)
+  @@index([profile_id])
+  @@schema("public")
+}
+
+enum Badge_Type {
+  Discussion_Dynamo //Awarded for consistently participating in discussions and providing valuable insights. // Criteria : Participated in the discussions more then 10 time.
+  Nextjs_Ninja // Awarded for demonstrating proficiency in using Next.js within the platform. // Criteria : Completed atleast 3 nextjs projects
+  Project_Visionary // Badge given for completing and showcasing a remarkable project built using the platform. Criteria ; Completed atleast 10 projects
+  Code_Connoisseur // Awarded for writing clean, efficient, and well-documented code.
+  Deployment_Dynamo // Award for completing 3 consecutive successfull deployments.
+  Deep_Learning_Disciple // Awarded for successfully applying deep learning techniques within the platform.
+  Model_Maestro // Badge recognizing expertise in designing, training, and evaluating machine learning models.
+  Cloud_Commander // Awarded for efficiently managing and optimizing cloud infrastructure.
+  Security_Sentinel //   Badge recognizing the implementation of robust security measures within the platform.
+  Problem_Solving_Sleuth //Badge given for effectively debugging and resolving complex technical issues
+  Testing_Titan //Awarded for creating comprehensive and effective unit and integration tests.
+
+  @@schema("public")
+}
+
+model Badges {
+  // based on achievments in the platform , initially there will be no badges
+  id         String     @id @unique
+  badge_type Badge_Type
+  badge_url  String
+  profile_id String //Profile to which the badge belong to
+  profile    profile    @relation(fields: [profile_id], references: [id], onDelete: Cascade)
 
   @@index([profile_id])
   @@schema("public")
 }
 
 model Projects {
-  id String @id @unique
+  id          String   @id @unique
+  skills_used Skills[] // Skill used in the project 
+  github_link String // github link of the project 
+  live_link   String // Live link of the project
+  description String // Description of the project
+  profile_id  String //profile to which the project belong to
+  profile     profile  @relation(fields: [profile_id], references: [id], onDelete: Cascade)
 
-  profile_id String
-  profile    profile @relation(fields: [profile_id], references: [id], onDelete: Cascade)
+  @@index([profile_id])
+  @@schema("public")
+}
+
+model Skills {
+  id               String          @id @unique
+  skill            String // App Development , Web Development
+  isVerified       Boolean         @default(false) // Skill is verified on not 
+  profile_id       String // Profile to which the skill belongs to 
+  project_id       String? // project from which the skill availed from 
+  qualification_id String? // qualification  from which the skill availed from 
+  profile          profile         @relation(fields: [profile_id], references: [id], onDelete: Cascade)
+  project          Projects?       @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  qualification    Qualifications? @relation(fields: [qualification_id], references: [id], onDelete: Cascade)
+
+  @@index([project_id])
+  @@index([profile_id])
+  @@index([qualification_id])
+  @@schema("public")
+}
+
+model Experiences {
+  id            String   @id @unique
+  title         String // Software Developer
+  type          String // Full time
+  company       String // Google
+  location      String // san francisco
+  location_type String // Remote
+  start_date    DateTime // Feb 1 , 2020
+  end_date      DateTime // April 20 , 2023
+  description   String // Worked as software developer for the website
+  industry      String // Software Development
+  profile_id    String // profile to which  this experience belong to 
+  profile       profile  @relation(fields: [profile_id], references: [id], onDelete: Cascade)
 
   @@index([profile_id])
   @@schema("public")
