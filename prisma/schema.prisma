@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["multiSchema"]
@@ -15,6 +9,302 @@ datasource db {
   directUrl    = env("DIRECT_URL")
   relationMode = "prisma"
   schemas      = ["auth", "public"]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model audit_log_entries {
+  instance_id String?   @db.Uuid
+  id          String    @id @db.Uuid
+  payload     Json?     @db.Json
+  created_at  DateTime? @db.Timestamptz(6)
+  ip_address  String    @default("") @db.VarChar(64)
+
+  @@index([instance_id], map: "audit_logs_instance_id_idx")
+  @@schema("auth")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model flow_state {
+  id                     String                @id @db.Uuid
+  user_id                String?               @db.Uuid
+  auth_code              String
+  code_challenge_method  code_challenge_method
+  code_challenge         String
+  provider_type          String
+  provider_access_token  String?
+  provider_refresh_token String?
+  created_at             DateTime?             @db.Timestamptz(6)
+  updated_at             DateTime?             @db.Timestamptz(6)
+  authentication_method  String
+
+  @@index([created_at(sort: Desc)])
+  @@index([auth_code], map: "idx_auth_code")
+  @@index([user_id, authentication_method], map: "idx_user_id_auth_method")
+  @@schema("auth")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model identities {
+  provider_id     String
+  user_id         String    @db.Uuid
+  identity_data   Json
+  provider        String
+  last_sign_in_at DateTime? @db.Timestamptz(6)
+  created_at      DateTime? @db.Timestamptz(6)
+  updated_at      DateTime? @db.Timestamptz(6)
+  email           String?   @default(dbgenerated("lower((identity_data ->> 'email'::text))"))
+  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  @@unique([provider_id, provider], map: "identities_provider_id_provider_unique")
+  @@index([email])
+  @@index([user_id])
+  @@schema("auth")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model instances {
+  id              String    @id @db.Uuid
+  uuid            String?   @db.Uuid
+  raw_base_config String?
+  created_at      DateTime? @db.Timestamptz(6)
+  updated_at      DateTime? @db.Timestamptz(6)
+
+  @@schema("auth")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model mfa_amr_claims {
+  session_id            String   @db.Uuid
+  created_at            DateTime @db.Timestamptz(6)
+  updated_at            DateTime @db.Timestamptz(6)
+  authentication_method String
+  id                    String   @id(map: "amr_id_pk") @db.Uuid
+
+  @@unique([session_id, authentication_method], map: "mfa_amr_claims_session_id_authentication_method_pkey")
+  @@schema("auth")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model mfa_challenges {
+  id          String    @id @db.Uuid
+  factor_id   String    @db.Uuid
+  created_at  DateTime  @db.Timestamptz(6)
+  verified_at DateTime? @db.Timestamptz(6)
+  ip_address  String    @db.Inet
+
+  @@index([created_at(sort: Desc)], map: "mfa_challenge_created_at_idx")
+  @@schema("auth")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model mfa_factors {
+  id            String        @id @db.Uuid
+  user_id       String        @db.Uuid
+  friendly_name String?
+  factor_type   factor_type
+  status        factor_status
+  created_at    DateTime      @db.Timestamptz(6)
+  updated_at    DateTime      @db.Timestamptz(6)
+  secret        String?
+
+  @@index([user_id, created_at], map: "factor_id_created_at_idx")
+  @@index([user_id])
+  @@schema("auth")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model refresh_tokens {
+  instance_id String?   @db.Uuid
+  id          BigInt    @id @default(autoincrement())
+  token       String?   @unique(map: "refresh_tokens_token_unique") @db.VarChar(255)
+  user_id     String?   @db.VarChar(255)
+  revoked     Boolean?
+  created_at  DateTime? @db.Timestamptz(6)
+  updated_at  DateTime? @db.Timestamptz(6)
+  parent      String?   @db.VarChar(255)
+  session_id  String?   @db.Uuid
+
+  @@index([instance_id])
+  @@index([instance_id, user_id])
+  @@index([parent])
+  @@index([session_id, revoked])
+  @@index([updated_at(sort: Desc)])
+  @@schema("auth")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model saml_providers {
+  id                String    @id @db.Uuid
+  sso_provider_id   String    @db.Uuid
+  entity_id         String    @unique
+  metadata_xml      String
+  metadata_url      String?
+  attribute_mapping Json?
+  created_at        DateTime? @db.Timestamptz(6)
+  updated_at        DateTime? @db.Timestamptz(6)
+
+  @@index([sso_provider_id])
+  @@schema("auth")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model saml_relay_states {
+  id              String    @id @db.Uuid
+  sso_provider_id String    @db.Uuid
+  request_id      String
+  for_email       String?
+  redirect_to     String?
+  created_at      DateTime? @db.Timestamptz(6)
+  updated_at      DateTime? @db.Timestamptz(6)
+  flow_state_id   String?   @db.Uuid
+
+  @@index([created_at(sort: Desc)])
+  @@index([for_email])
+  @@index([sso_provider_id])
+  @@schema("auth")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model schema_migrations {
+  version String @id @db.VarChar(255)
+
+  @@schema("auth")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model sessions {
+  id           String     @id @db.Uuid
+  user_id      String     @db.Uuid
+  created_at   DateTime?  @db.Timestamptz(6)
+  updated_at   DateTime?  @db.Timestamptz(6)
+  factor_id    String?    @db.Uuid
+  aal          aal_level?
+  not_after    DateTime?  @db.Timestamptz(6)
+  refreshed_at DateTime?  @db.Timestamp(6)
+  user_agent   String?
+  ip           String?    @db.Inet
+  tag          String?
+
+  @@index([not_after(sort: Desc)])
+  @@index([user_id])
+  @@index([user_id, created_at], map: "user_id_created_at_idx")
+  @@schema("auth")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+model sso_domains {
+  id              String    @id @db.Uuid
+  sso_provider_id String    @db.Uuid
+  domain          String
+  created_at      DateTime? @db.Timestamptz(6)
+  updated_at      DateTime? @db.Timestamptz(6)
+
+  @@index([sso_provider_id])
+  @@schema("auth")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+model sso_providers {
+  id          String    @id @db.Uuid
+  resource_id String?
+  created_at  DateTime? @db.Timestamptz(6)
+  updated_at  DateTime? @db.Timestamptz(6)
+
+  @@schema("auth")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+model auth_users {
+  instance_id                 String?   @db.Uuid
+  id                          String    @id @db.Uuid
+  aud                         String?   @db.VarChar(255)
+  role                        String?   @db.VarChar(255)
+  email                       String?   @db.VarChar(255)
+  encrypted_password          String?   @db.VarChar(255)
+  email_confirmed_at          DateTime? @db.Timestamptz(6)
+  invited_at                  DateTime? @db.Timestamptz(6)
+  confirmation_token          String?   @db.VarChar(255)
+  confirmation_sent_at        DateTime? @db.Timestamptz(6)
+  recovery_token              String?   @db.VarChar(255)
+  recovery_sent_at            DateTime? @db.Timestamptz(6)
+  email_change_token_new      String?   @db.VarChar(255)
+  email_change                String?   @db.VarChar(255)
+  email_change_sent_at        DateTime? @db.Timestamptz(6)
+  last_sign_in_at             DateTime? @db.Timestamptz(6)
+  raw_app_meta_data           Json?
+  raw_user_meta_data          Json?
+  is_super_admin              Boolean?
+  created_at                  DateTime? @db.Timestamptz(6)
+  updated_at                  DateTime? @db.Timestamptz(6)
+  phone                       String?   @unique
+  phone_confirmed_at          DateTime? @db.Timestamptz(6)
+  phone_change                String?   @default("")
+  phone_change_token          String?   @default("") @db.VarChar(255)
+  phone_change_sent_at        DateTime? @db.Timestamptz(6)
+  confirmed_at                DateTime? @default(dbgenerated("LEAST(email_confirmed_at, phone_confirmed_at)")) @db.Timestamptz(6)
+  email_change_token_current  String?   @default("") @db.VarChar(255)
+  email_change_confirm_status Int?      @default(0) @db.SmallInt
+  banned_until                DateTime? @db.Timestamptz(6)
+  reauthentication_token      String?   @default("") @db.VarChar(255)
+  reauthentication_sent_at    DateTime? @db.Timestamptz(6)
+  is_sso_user                 Boolean   @default(false)
+  deleted_at                  DateTime? @db.Timestamptz(6)
+  is_anonymous                Boolean   @default(false)
+
+  @@index([instance_id])
+  @@index([is_anonymous])
+  @@map("users")
+  @@schema("auth")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model public_users {
+  id              String  @id @db.Uuid
+  full_name       String?
+  profile_picture String?
+  email           String
+  billing_address Json?
+  payment_method  Json?
+
+  @@map("users")
+  @@schema("public")
+}
+
+enum aal_level {
+  aal1
+  aal2
+  aal3
+
+  @@schema("auth")
+}
+
+enum code_challenge_method {
+  s256
+  plain
+
+  @@schema("auth")
+}
+
+enum factor_status {
+  unverified
+  verified
+
+  @@schema("auth")
+}
+
+enum factor_type {
+  totp
+  webauthn
+
+  @@schema("auth")
 }
 
 enum Rank {
@@ -31,6 +321,7 @@ enum Rank {
 }
 
 model profile {
+  //Apexians
   id               String           @id @db.Uuid
   firstname        String // firstname of the developer
   lastname         String //lastname of the developer
@@ -48,6 +339,7 @@ model profile {
   projects         Projects[] // projects of the developer
   experiences      Experiences[] // experiences of the developer
   skills           Skills[] // skills of the developer
+  environments     Enviroments[]
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
 
@@ -65,6 +357,7 @@ model Position {
   updatedAt  DateTime @updatedAt
 
   @@index([profile_id])
+  @@map("Position")
   @@schema("public")
 }
 
@@ -85,6 +378,7 @@ model Qualifications {
   updatedAt      DateTime @updatedAt
 
   @@index([profile_id])
+  @@map("Qualifications")
   @@schema("public")
 }
 
@@ -113,6 +407,7 @@ model Badges {
   profile    profile    @relation(fields: [profile_id], references: [id], onDelete: Cascade)
 
   @@index([profile_id])
+  @@map("Badges")
   @@schema("public")
 }
 
@@ -126,12 +421,22 @@ model Projects {
   profile     profile  @relation(fields: [profile_id], references: [id], onDelete: Cascade)
 
   @@index([profile_id])
+  @@map("Projects")
+  @@schema("public")
+}
+
+enum Skill_level {
+  Beginner
+  Intermediate
+  Advanced
+
   @@schema("public")
 }
 
 model Skills {
   id               String          @id @unique
   skill            String // App Development , Web Development
+  Level            Skill_level     @default(Beginner) // Level of skill 
   isVerified       Boolean         @default(false) // Skill is verified on not 
   profile_id       String // Profile to which the skill belongs to 
   project_id       String? // project from which the skill availed from 
@@ -143,6 +448,7 @@ model Skills {
   @@index([project_id])
   @@index([profile_id])
   @@index([qualification_id])
+  @@map("Skills")
   @@schema("public")
 }
 
@@ -161,5 +467,87 @@ model Experiences {
   profile       profile  @relation(fields: [profile_id], references: [id], onDelete: Cascade)
 
   @@index([profile_id])
+  @@map("Experiences")
+  @@schema("public")
+}
+
+enum Privacy_type {
+  PRIVATE
+  PUBLIC
+
+  @@schema("public")
+}
+
+model Category {
+  id             String      @id
+  name           String // categories can be  Web Development , App Developement , Ai and Machine Learning etc.
+  environment_id String //  Environment in which category is used
+  environment    Enviroments @relation(fields: [environment_id], references: [id])
+
+  @@index([environment_id])
+  @@map("Category")
+  @@schema("public")
+}
+
+model Group_Projects {
+  id                String             @id @unique
+  skills_required   Available_skills[] // Skill used in the project 
+  description       String // Description of the project
+  prize             Int // Prize offered by the Group Owner
+  expected_duration Int // Expected duration of the project in days.
+  enviroment_id     String //profile to which the project belong to
+  enviroment        Enviroments        @relation(fields: [enviroment_id], references: [id], onDelete: Cascade)
+
+  @@index([enviroment_id])
+  @@map("Group_Projects")
+  @@schema("public")
+}
+
+model Enviroments {
+  id                 String           @id @unique
+  name               String // Name of the group
+  description        String // About the Group
+  rule_id            String?          @unique
+  number_of_apexians Int              @default(0) // Number of members of the environment
+  access_type        Privacy_type     @default(PUBLIC) //  Access Type of the group. If it is private then only members can see the details if public anyone
+  apexians           profile[] // List of Members of the group
+  rules              Rule? // ranks , level , qualifications , skills can be used to define rules to for accessing the Environment.
+  categories         Category[]
+  projects           Group_Projects[]
+
+  @@index([rule_id])
+  @@map("Environment")
+  @@schema("public")
+}
+
+model Available_skills {
+  id             String           @id @unique
+  name           String           @unique // Name of the skill 
+  group_projects Group_Projects[] // Projects that use this skill
+
+  @@map("Available_skills")
+  @@schema("public")
+}
+
+model All_Skills {
+  id   String @id @unique
+  name String @unique // Name of the skill
+  rule Rule[] // rules with which  this skill is associated.
+
+  @@map("All_Skills")
+  @@schema("public")
+}
+
+model Rule {
+  id                         String       @id
+  rank_required              String // Rank required for the rule
+  min_level_required         Int // minimum  level required for the rule
+  min_qualification_required String //  Minimum qualifications required for the rule
+  environment_id             String       @unique // environment  where the rule applies to
+  min_skills_required        All_Skills[] // Max two skills can be choosed
+  environment                Enviroments  @relation(fields: [environment_id], references: [id])
+
+  @@index([environment_id])
+  @@map("Rule")
   @@schema("public")
 }
