@@ -562,7 +562,7 @@ export type Enums<
 export type Enviroments = {
   id: string;
   name: string; // Name of the group
-  environment_ownerId:string;
+  environment_ownerId: string;
   description: string; // About the Group
   rule_id: string;
   number_of_apexians: number; // Number of members of the environment
@@ -584,6 +584,7 @@ export type profile = {
   lastname: string; //lastname of the developer
   profile_headline: string; // profile headline to be shown beneath the name
   profile_picture: string; //  profile picture of the user
+  avatar_url: string;
   about: string; // about the developer
   email: string;
   onboarded: Boolean;
