@@ -577,7 +577,6 @@ enum Privacy_type {
   PUBLIC,
 }
 
-
 export type profile = {
   id: String;
   firstname: String; // firstname of the developer
@@ -598,13 +597,132 @@ export type profile = {
   skills: Skills[]; // skills of the developer
   environments: Enviroments[];
 };
+export type All_Skills = {
+  id: String;
+  name: String; // Name of the skill
+  rule: Rule[]; // rules with which  this skill is associated.
+};
 
-export type Rule = {};
-export type Badges = {};
-export type Category = {};
-export type Projects = {};
-export type Group_Projects = {};
-export type Skills = {};
-export type Position = {};
-export type Qualifications = {};
-export type Experiences = {};
+export type Rule = {
+  id: String;
+  rank_required: String; // Rank required for the rule
+  min_level_required: number; // minimum  level required for the rule
+  min_qualification_required: String; //  Minimum qualifications required for the rule
+  environment_id: String; // environment  where the rule applies to
+  min_skills_required: All_Skills[]; // Max two skills can be choosed
+  environment: Enviroments;
+};
+
+enum Badge_Type {
+  Discussion_Dynamo, //Awarded for consistently participating in discussions and providing valuable insights. // Criteria : Participated in the discussions more then 10 time.
+  Nextjs_Ninja, // Awarded for demonstrating proficiency in using Next.js within the platform. // Criteria : Completed atleast 3 nextjs projects
+  Project_Visionary, // Badge given for completing and showcasing a remarkable project built using the platform. Criteria ; Completed atleast 10 projects
+  Code_Connoisseur, // Awarded for writing clean, efficient, and well-documented code.
+  Deployment_Dynamo, // Award for completing 3 consecutive successfull deployments.
+  Deep_Learning_Disciple, // Awarded for successfully applying deep learning techniques within the platform.
+  Model_Maestro, // Badge recognizing expertise in designing, training, and evaluating machine learning models.
+  Cloud_Commander, // Awarded for efficiently managing and optimizing cloud infrastructure.
+  Security_Sentinel, //   Badge recognizing the implementation of robust security measures within the platform.
+  Problem_Solving_Sleuth, //Badge given for effectively debugging and resolving complex technical issues
+  Testing_Titan, //Awarded for creating comprehensive and effective unit and integration tests.
+}
+export type Badges = {
+  id: String;
+  badge_type: Badge_Type;
+  badge_url: String;
+  profile_id: String; //Profile to which the badge belong to
+  profile: profile;
+};
+export type Category = {
+  id: String;
+  name: String; // categories can be  Web Development , App Developement , Ai and Machine Learning etc.
+  environment_id: String; //  Environment in which category is used
+  environment: Enviroments;
+};
+export type Projects = {
+  id: String;
+  skills_used: Skills[]; // Skill used in the project
+  github_link: String; // github link of the project
+  live_link: String; // Live link of the project
+  description: String; // Description of the project
+  profile_id: String; //profile to which the project belong to
+  profile: profile;
+};
+export type Available_skills = {
+  id: String;
+  name: String; // Name of the skill
+  group_projects: Group_Projects[]; // Projects that use this skill
+};
+
+export type Group_Projects = {
+  id: String;
+  skills_required: Available_skills[]; // Skill used in the project
+  description: String; // Description of the project
+  prize: number; // Prize offered by the Group Owner
+  expected_duration: number; // Expected duration of the project in days.
+  enviroment_id: String; //profile to which the project belong to
+  enviroment: Enviroments;
+};
+enum Skill_level {
+  Beginner,
+  Intermediate,
+  Advanced,
+}
+
+export type Skills = {
+  id: String;
+  skill: String; // App Development , Web Development
+  Level: Skill_level; // Level of skill
+  isVerified: Boolean; // Skill is verified on not
+  profile_id: String; // Profile to which the skill belongs to
+  project_id: String; // project from which the skill availed from
+  qualification_id: String; // qualification  from which the skill availed from
+  profile: profile;
+  project: Projects;
+  qualification: Qualifications;
+};
+enum Rank {
+  Platform_Pioneer, // Initial Level of all Developers
+  Neural_Network_Architect, // Ai Engineer who designs and builds neural network models for the platform
+  Data_Alchemist, // Data Scientist who prepares, cleans, and manipulates data for effective AI training.
+  Algorithmic_Strategist, // DSA engineer who Selects and implements suitable algorithms for platform tasks.
+  Machine_Learning_Mastermind, //  Possesses the highest level of expertise in machine learning techniques.
+  Security_Sentinel, // Cyber Engineer who implements robust security measures to protect the platform and its AI components.
+  Cloud_Maestro, // Cloud Engineer who  manages and optimizes cloud infrastructure for efficient performance.
+  UI_UX_Architect, //Ui Ux Designer who Designs user interfaces optimized for better interaction.
+}
+export type Position = {
+  id: String;
+  rank: Rank; // Based on skills , qualification and projects (priority based on same hirerachy)
+  level: number; // ( Lv1 to Lv10)
+  profile_id: String; // profile to which the position belong to
+  profile: profile;
+};
+export type Qualifications = {
+  id: String;
+  qualification: String; //Example Bachelor's in Technology
+  school: String; // Boston University
+  field_of_study: String; //Business
+  start_date: Date; // start date of the qualification
+  end_date: Date; // (or expected)
+  grade: String; // grade in the qualification
+  isVerified: Boolean; // Verification takes around 30 mins and sometimes 1 day or more .
+  document_url: String; // Document related to qualification used for verification
+  Skills: Skills[]; // All the skills  should be mentioned in the certificate provided by you  for verification purposes.
+  profile_id: String; // profile to which the Qualification belong to
+  profile: profile;
+};
+export type Experiences = {
+  id: String;
+  title: String; // Software Developer
+  type: String; // Full time
+  company: String; // Google
+  location: String; // san francisco
+  location_type: String; // Remote
+  start_date: Date; // Feb 1 , 2020
+  end_date: Date; // April 20 , 2023
+  description: String; // Worked as software developer for the website
+  industry: String; // Software Development
+  profile_id: String; // profile to which  this experience belong to
+  profile: profile;
+};
