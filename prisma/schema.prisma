@@ -405,6 +405,8 @@ model Badges {
   badge_url  String
   profile_id String //Profile to which the badge belong to
   profile    profile    @relation(fields: [profile_id], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@index([profile_id])
   @@map("Badges")
@@ -419,6 +421,8 @@ model Projects {
   description String // Description of the project
   profile_id  String //profile to which the project belong to
   profile     profile  @relation(fields: [profile_id], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@index([profile_id])
   @@map("Projects")
@@ -444,6 +448,8 @@ model Skills {
   profile          profile         @relation(fields: [profile_id], references: [id], onDelete: Cascade)
   project          Projects?       @relation(fields: [project_id], references: [id], onDelete: Cascade)
   qualification    Qualifications? @relation(fields: [qualification_id], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@index([project_id])
   @@index([profile_id])
@@ -465,6 +471,8 @@ model Experiences {
   industry      String // Software Development
   profile_id    String // profile to which  this experience belong to 
   profile       profile  @relation(fields: [profile_id], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@index([profile_id])
   @@map("Experiences")
@@ -497,6 +505,8 @@ model Group_Projects {
   expected_duration Int // Expected duration of the project in days.
   enviroment_id     String //profile to which the project belong to
   enviroment        Enviroments        @relation(fields: [enviroment_id], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@index([enviroment_id])
   @@map("Group_Projects")
@@ -514,6 +524,8 @@ model Enviroments {
   rules              Rule? // ranks , level , qualifications , skills can be used to define rules to for accessing the Environment.
   categories         Category[]
   projects           Group_Projects[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@index([rule_id])
   @@map("Environment")

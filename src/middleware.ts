@@ -2,7 +2,7 @@ import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
 import { NextRequest, NextResponse } from "next/server";
 
 function matchPathnamePattern(pathname: string): boolean {
-  const pattern = /^\/\[([^/]+)]\/(?:dashboard|apexians|chat|projects)$/;
+  const pattern = /^\/([^/]*)\/(dashboard|apexians|chats|projects)$/;
   const match = pathname.match(pattern);
 
   return match !== null && match.length > 1;
