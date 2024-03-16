@@ -323,7 +323,7 @@ enum Rank {
 model profile {
   //Apexians
   id               String           @id @db.Uuid
-  firstname        String?// firstname of the developer
+  firstname        String? // firstname of the developer
   lastname         String? //lastname of the developer
   profile_headline String? // profile headline to be shown beneath the name
   profile_picture  String? //  profile picture of the user
@@ -341,7 +341,7 @@ model profile {
   skills           Skills[] // skills of the developer
   environments     Enviroments[]
   createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
+  updatedAt        DateTime         @default(now()) @updatedAt
 
   @@map("profile")
   @@schema("public")
