@@ -567,10 +567,10 @@ export type Enviroments = {
   rule_id: string;
   number_of_apexians: number; // Number of members of the environment
   access_type: Privacy_type; //  Access Type of the group. If it is private then only members can see the details if public anyone
-  apexians: Partial<profile>[]; // List of Members of the group
+  // apexians: Partial<profile>[]; // List of Members of the group
   rules: Rule; // ranks , level , qualifications , skills can be used to define rules to for accessing the Environment.
-  categories: Category[];
-  projects: Partial<Group_Projects>[];
+  // categories: Category[];
+  // projects: Partial<Group_Projects>[];
 };
 
 export enum Privacy_type {
@@ -591,14 +591,10 @@ export type profile = {
   linkedin_url: string; // linkedin url of the developer
   x_url: string; //  X url of the developer (twitter)
   github_url: string; // github url of the developer
-  positions?: Partial<Position>[]; // ranks of the developer
-  qualifications?: Partial<Qualifications>[]; // qualification of the developer
-  badges?: Partial<Badges>[]; // badges of the developer
-  projects?: Partial<Projects>[]; // projects of the developer
-  experiences?: Partial<Experiences>[]; // experiences of the developer
-  skills?: Partial<Skills>[]; // skills of the developer
-  environments?: Partial<Enviroments>[];
+  createdAt: Date;
+  updatedAt: Date;
 };
+
 export type All_Skills = {
   id: string;
   name: string; // Name of the skill
@@ -611,8 +607,7 @@ export type Rule = {
   min_level_required: number; // minimum  level required for the rule
   min_qualification_required: string; //  Minimum qualifications required for the rule
   environment_id: string; // environment  where the rule applies to
-  min_skills_required: All_Skills[]; // Max two skills can be choosed
-  environment: Enviroments;
+  // min_skills_required: All_Skills[]; // Max two skills can be choosed
 };
 
 export enum Badge_Type {
@@ -633,37 +628,37 @@ export type Badges = {
   badge_type: Badge_Type;
   badge_url: string;
   profile_id: string; //Profile to which the badge belong to
-  profile: profile;
+  // profile: profile;
 };
 export type Category = {
   id: string;
   name: string; // categories can be  Web Development , App Developement , Ai and Machine Learning etc.
   environment_id: string; //  Environment in which category is used
-  environment: Enviroments;
+  // environment: Enviroments;
 };
 export type Projects = {
   id: string;
-  skills_used: Skills[]; // Skill used in the project
+  // skills_used: Skills[]; // Skill used in the project
   github_link: string; // github link of the project
   live_link: string; // Live link of the project
   description: string; // Description of the project
   profile_id: string; //profile to which the project belong to
-  profile: profile;
+  // profile: profile;
 };
 export type Available_skills = {
   id: string;
   name: string; // Name of the skill
-  group_projects: Group_Projects[]; // Projects that use this skill
+  // group_projects: Group_Projects[]; // Projects that use this skill
 };
 
 export type Group_Projects = {
   id: string;
-  skills_required: Available_skills[]; // Skill used in the project
+  // skills_required: Available_skills[]; // Skill used in the project
   description: string; // Description of the project
   prize: number; // Prize offered by the Group Owner
   expected_duration: number; // Expected duration of the project in days.
   enviroment_id: string; //profile to which the project belong to
-  enviroment: Enviroments;
+  // enviroment: Enviroments;
 };
 export enum Skill_level {
   Beginner,
@@ -679,9 +674,9 @@ export type Skills = {
   profile_id: string; // Profile to which the skill belongs to
   project_id: string; // project from which the skill availed from
   qualification_id: string; // qualification  from which the skill availed from
-  profile: profile;
-  project: Projects;
-  qualification: Qualifications;
+  // profile: profile;
+  // project: Projects;
+  // qualification: Qualifications;
 };
 export enum Rank {
   Platform_Pioneer, // Initial Level of all Developers
@@ -698,7 +693,7 @@ export type Position = {
   rank: Rank; // Based on skills , qualification and projects (priority based on same hirerachy)
   level: number; // ( Lv1 to Lv10)
   profile_id: string; // profile to which the position belong to
-  profile: profile;
+  // profile: profile;
 };
 export type Qualifications = {
   id: string;
@@ -710,10 +705,11 @@ export type Qualifications = {
   grade: string; // grade in the qualification
   isVerified: Boolean; // Verification takes around 30 mins and sometimes 1 day or more .
   document_url: string; // Document related to qualification used for verification
-  Skills: Skills[]; // All the skills  should be mentioned in the certificate provided by you  for verification purposes.
+  // Skills: Skills[]; // All the skills  should be mentioned in the certificate provided by you  for verification purposes.
   profile_id: string; // profile to which the Qualification belong to
-  profile: profile;
+  // profile: profile;
 };
+
 export type Experiences = {
   id: string;
   title: string; // Software Developer
@@ -726,5 +722,5 @@ export type Experiences = {
   description: string; // Worked as software developer for the website
   industry: string; // Software Development
   profile_id: string; // profile to which  this experience belong to
-  profile: profile;
+  // profile: profile;
 };

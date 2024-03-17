@@ -63,11 +63,12 @@ export const QualificationsSchema = z.object({
   start_date: z.date(),
   end_date: z.date().optional(), // End date can be optional
   grade: z.string().optional(), // Grade can be optional
-  isVerified: z.boolean(),
+  // isVerified: z.boolean(),
   document_url: z.string().url("Invalid document URL").optional(), // Optional document URL with validation
-  Skills: z.array(SkillsSchema), // Array of Skill schemas
-  profile_id: z.string(),
+  // Skills: z.array(SkillsSchema), // Array of Skill schemas
+  // profile_id: z.string(),
 });
+
 export const BadgesSchema = z.object({
   id: z.string().optional(), // Allow optional ID for updates
   badge_type: z.nativeEnum(Badge_Type), // Use the Badge_Type enum for validation
@@ -86,14 +87,10 @@ export const ProfileFormSchema = z.object({
   firstname: z.string().describe("First name of the Apexian"),
   lastname: z.string().describe("Last name of the  Apexian"),
   profile_headline: z.string(),
-  about: z.string().max(100, "About can have max 100 characters"),
+  about: z.string().max(150, "About can have max 150 characters"),
   email: z.string().describe("Email").email({ message: "Invalid Email" }),
   onboarded: z.boolean(),
   linkedin_url: z.string().url("Invalid LinkedIn URL").optional(),
   x_url: z.string().url("Invalid X URL").optional(),
-  github_url: z.string().url("Invalid GitHub URL").optional(),
-  qualifications: z.array(QualificationsSchema).optional(),
-  projects: z.array(ProjectsSchema).optional(),
-  experiences: z.array(ExperiencesSchema).optional(),
-  skills: z.array(SkillsSchema).optional(),
+  github_url: z.string().url("Invalid GitHub URL"),
 });

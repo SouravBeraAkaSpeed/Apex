@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 const Loader = () => {
   return (
-    <div role="status">
+    <div role="status" className="text-black ">
       <svg
         aria-hidden="true"
-        className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-primary-foreground/30 fill-primary-foreground "
+        className="inline  h-[100px] mr-2 text-black w-[100px] animate-spin dark:text-white fill-primary-foreground "
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
