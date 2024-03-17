@@ -12,7 +12,6 @@ import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ProfileFormSchema, QualificationsSchema } from "@/lib/FormSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { v4 } from "uuid";
 import {
   Form,
   FormControl,
@@ -42,16 +41,17 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { FileUpload } from "@/components/file-upload";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
-  const user = USER_ONBOARDING_DETAILS;
+  // const user = USER_ONBOARDING_DETAILS;
   const [submitError, setSubmitError] = useState("");
   const [confirmation, setConfirmation] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const [profileId, setProfileId] = useState("");
   const [uploadingdocument, setUploadingdocument] = useState(false);
-  const supabase = createClientComponentClient();
+  const router = useRouter();
 
   useEffect(() => {
     setIsMounted(true);
@@ -90,37 +90,33 @@ const Page = () => {
 
   const isLoading = form.formState.isSubmitting;
 
-  interface onQualificationDocumentUploadProps {
-    e: React.ChangeEvent<HTMLInputElement>;
-    onChange: (url?: string) => void;
-  }
-  const onQualificationDocumentUpload = async ({
-    e,
-    onChange,
-  }: onQualificationDocumentUploadProps) => {
-    if (!profileId) return;
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const uuid = v4();
-    setUploadingdocument(true);
-    const { data, error } = await supabase.storage
-      .from("qualification-docs")
-      .upload(`qualificationDocs.${uuid}`, file, {
-        cacheControl: "3600",
-        upsert: true,
-      });
+  // interface onQualificationDocumentUploadProps {
+  //   e: React.ChangeEvent<HTMLInputElement>;
+  //   onChange: (url?: string) => void;
+  // }
+  // const onQualificationDocumentUpload = async ({
+  //   e,
+  //   onChange,
+  // }: onQualificationDocumentUploadProps) => {
+  //   console.log("called");
+  //   if (!profileId) return;
+  //   const file = e.target.files?.[0];
+  //   if (!file) return;
+  //   const uuid = v4();
+  //   setUploadingdocument(true);
+  //   const { data, error } = await supabase.storage
+  //     .from("qualification-docs")
+  //     .upload(`qualificationDocs.${profileId}.${uuid}`, file, {
+  //       cacheControl: "3600",
+  //       upsert: true,
+  //     });
 
-    if (!error) {
-      console.log(data);
-      onChange(data.path);
-      // dispatch({
-      //   type: "UPDATE_WORKSPACE",
-      //   payload: { workspace: { logo: data.path }, workspaceId },
-      // });
-      // await updateWorkspace({ logo: data.path }, workspaceId);
-      setUploadingdocument(false);
-    }
-  };
+  //   if (!error) {
+  //     console.log(data);
+  //     onChange(data.path);
+  //     setUploadingdocument(false);
+  //   }
+  // };
 
   const onSubmit: SubmitHandler<z.infer<typeof ProfileFormSchema>> = async (
     formData
@@ -131,7 +127,15 @@ const Page = () => {
   const onQualificationSubmit: SubmitHandler<
     z.infer<typeof QualificationsSchema>
   > = async (formData) => {
-    console.log(formData);
+    console.log(formData.start_date.toISOString().toLocaleString());
+
+    try {
+      await axios.post("/api/qualifications", formData);
+      Qualificationform.reset();
+      router.refresh();
+    } catch (error) {
+      console.log("Error at axios: ", error);
+    }
   };
 
   if (!isMounted) return <Loader />;
@@ -385,7 +389,7 @@ const Page = () => {
 
             <div className="flex  justify-center  ">
               <div className="flex flex-col  w-full mx-7">
-                <DialogContent className="sm:max-w-[425px] bg-white text-black overflow-auto max-h-[600px]">
+                <DialogContent className="sm:max-w-[425px]  bg-white text-black overflow-auto h-[600px]">
                   {isQualificationLoading ? (
                     <Loader />
                   ) : (
@@ -615,7 +619,10 @@ const Page = () => {
 
                           <div className="flex flex-col  w-full">
                             <Label htmlFor="document_url">
-                              Image of your document supporting your qualification
+                              Document supporting your qualification
+                              <span className="text-blue-500">
+                                {uploadingdocument && " Uploading...."}
+                              </span>
                             </Label>
                             <FormField
                               disabled={isQualificationLoading}
@@ -624,19 +631,26 @@ const Page = () => {
                               render={({ field }) => (
                                 <FormItem>
                                   <FormControl>
-                                    <Input
+                                    <FileUpload
+                                      value={field.value}
+                                      onChange={field.onChange}
+                                      setUploadingdocument={
+                                        setUploadingdocument
+                                      }
+                                    />
+                                    {/* <Input
                                       type="file"
-                                      accept="image/*"
+                                      accept="application/pdf,application/vnd.ms-excel"
                                       placeholder="Ex: Graduation Certificate, Diploma, Cource Certificate etc."
-                                      className=" text-black  mt-2 bg-white w-full"
+                                      className="text-black  mt-2 bg-white w-full"
                                       onChange={(e) => {
                                         onQualificationDocumentUpload({
-                                          e,
+                                          e: e,
                                           onChange: field.onChange,
                                         });
                                       }}
                                       value={field.value}
-                                    />
+                                    /> */}
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
@@ -997,7 +1011,7 @@ const Page = () => {
                 </div>
 
                 {/* Education */}
-                {user.hasExperience && (
+                {/* {user.hasExperience && (
                   <>
                     <div className="mt-4 text-lg font-semibold">
                       <h1>Education</h1>
@@ -1020,10 +1034,10 @@ const Page = () => {
                       ))}
                     </div>
                   </>
-                )}
+                )} */}
 
                 {/* Professional experience */}
-                {user.hasExperience && (
+                {/* {user.hasExperience && (
                   <>
                     <div className="mt-4 text-lg font-semibold">
                       <h1>Professional Experience</h1>
@@ -1046,7 +1060,7 @@ const Page = () => {
                       ))}
                     </div>
                   </>
-                )}
+                )} */}
 
                 {/* Projects */}
 
@@ -1054,7 +1068,7 @@ const Page = () => {
                   <div>
                     <h1 className="text-lg font-semibold">Projects</h1>
                     <div className="h-[0.25px] bg-slate-500 w-full"></div>
-                    <div className="mt-2 text-xs">
+                    {/* <div className="mt-2 text-xs">
                       {user.projectsList.map((project, index) => (
                         <div className="mb-4" key={index}>
                           <h3 className="text-sm font-semibold">
@@ -1077,7 +1091,7 @@ const Page = () => {
                           <div className="mt-1 ml-3">{project.description}</div>
                         </div>
                       ))}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
 
@@ -1088,7 +1102,7 @@ const Page = () => {
                     <h1 className="text-lg font-semibold">Skills</h1>
                     <div className="h-[0.25px] bg-slate-500 w-full"></div>
                   </div>
-                  <div className="mt-2 text-xs">
+                  {/* <div className="mt-2 text-xs">
                     {user.skills.length > 0 && (
                       <ul className="flex flex-wrap gap-2">
                         {user.skills.map((skill, index) => (
@@ -1096,7 +1110,7 @@ const Page = () => {
                         ))}
                       </ul>
                     )}
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </CardContent>

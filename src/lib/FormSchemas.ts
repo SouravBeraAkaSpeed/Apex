@@ -64,7 +64,7 @@ export const QualificationsSchema = z.object({
   end_date: z.date().optional(), // End date can be optional
   grade: z.string().optional(), // Grade can be optional
   // isVerified: z.boolean(),
-  document_url: z.string().url("Invalid document URL").optional(), // Optional document URL with validation
+  document_url: z.string().optional(), // Optional document URL with validation
   // Skills: z.array(SkillsSchema), // Array of Skill schemas
   // profile_id: z.string(),
 });
