@@ -334,13 +334,13 @@ model profile {
   linkedin_url     String? // linkedin url of the developer
   x_url            String? //  X url of the developer (twitter)
   github_url       String? // github url of the developer
-  positions        Position[] // ranks of the developer
+  positions        Position[] // ranks of the developer 
   qualifications   Qualifications[] // qualification of the developer
-  badges           Badges[] // badges of the developer
+  badges           Badges[] // badges of the developer // not neccessary
   projects         Projects[] // projects of the developer
   experiences      Experiences[] // experiences of the developer
   skills           Skills[] // skills of the developer
-  environments     Enviroments[]
+  environments     Enviroments[] // not neccessary
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @default(now()) @updatedAt
 

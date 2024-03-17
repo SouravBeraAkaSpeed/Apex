@@ -573,7 +573,7 @@ export type Enviroments = {
   projects: Partial<Group_Projects>[];
 };
 
-enum Privacy_type {
+export enum Privacy_type {
   PRIVATE,
   PUBLIC,
 }
@@ -591,13 +591,13 @@ export type profile = {
   linkedin_url: string; // linkedin url of the developer
   x_url: string; //  X url of the developer (twitter)
   github_url: string; // github url of the developer
-  positions: Partial<Position>[]; // ranks of the developer
-  qualifications: Partial<Qualifications>[]; // qualification of the developer
-  badges: Partial<Badges>[]; // badges of the developer
-  projects: Partial<Projects>[]; // projects of the developer
-  experiences: Partial<Experiences>[]; // experiences of the developer
-  skills: Partial<Skills>[]; // skills of the developer
-  environments: Partial<Enviroments>[];
+  positions?: Partial<Position>[]; // ranks of the developer
+  qualifications?: Partial<Qualifications>[]; // qualification of the developer
+  badges?: Partial<Badges>[]; // badges of the developer
+  projects?: Partial<Projects>[]; // projects of the developer
+  experiences?: Partial<Experiences>[]; // experiences of the developer
+  skills?: Partial<Skills>[]; // skills of the developer
+  environments?: Partial<Enviroments>[];
 };
 export type All_Skills = {
   id: string;
@@ -615,7 +615,7 @@ export type Rule = {
   environment: Enviroments;
 };
 
-enum Badge_Type {
+export enum Badge_Type {
   Discussion_Dynamo, //Awarded for consistently participating in discussions and providing valuable insights. // Criteria : Participated in the discussions more then 10 time.
   Nextjs_Ninja, // Awarded for demonstrating proficiency in using Next.js within the platform. // Criteria : Completed atleast 3 nextjs projects
   Project_Visionary, // Badge given for completing and showcasing a remarkable project built using the platform. Criteria ; Completed atleast 10 projects
@@ -665,7 +665,7 @@ export type Group_Projects = {
   enviroment_id: string; //profile to which the project belong to
   enviroment: Enviroments;
 };
-enum Skill_level {
+export enum Skill_level {
   Beginner,
   Intermediate,
   Advanced,
@@ -683,7 +683,7 @@ export type Skills = {
   project: Projects;
   qualification: Qualifications;
 };
-enum Rank {
+export enum Rank {
   Platform_Pioneer, // Initial Level of all Developers
   Neural_Network_Architect, // Ai Engineer who designs and builds neural network models for the platform
   Data_Alchemist, // Data Scientist who prepares, cleans, and manipulates data for effective AI training.
