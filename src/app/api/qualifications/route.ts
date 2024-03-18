@@ -6,15 +6,7 @@ import { currentProfile } from "@/lib/currentProfile";
 
 export async function POST(req: Request) {
   try {
-    const {
-      qualification,
-      school,
-      field_of_study,
-      start_date,
-      end_date,
-      grade,
-      document_url,
-    } = await req.json();
+    const newQualification = await req.json();
 
     const profile = await currentProfile();
 
@@ -23,23 +15,32 @@ export async function POST(req: Request) {
     }
 
     const profile_id = profile.id;
+
     if (profile_id) {
-      const qualificationData = await db.qualifications.create({
-        data: {
-          document_url: document_url,
-          end_date: new Date(end_date)?.toISOString().toLocaleString(),
-          field_of_study: field_of_study,
-          grade: grade,
+      const qualificationData = await db.qualifications.upsert({
+        where: {
+          id: newQualification.id ?  newQualification.id : "" ,
+        },
+        update: newQualification,
+        create: {
+          profile_id: profile_id,
+          qualification: newQualification.qualification,
+          school: newQualification.school,
+          field_of_study: newQualification.field_of_study,
+          grade: newQualification.grade,
+          document_url: newQualification.document_url,
+          end_date: new Date(newQualification.end_date)
+            ?.toISOString()
+            .toLocaleString(),
           id: v4(),
           isVerified: false,
-          profile_id: profile_id,
-          qualification: qualification,
-          school: school,
-          start_date: new Date(start_date).toISOString().toLocaleString(),
+          start_date: new Date(newQualification.start_date)
+            .toISOString()
+            .toLocaleString(),
           updatedAt: new Date().toISOString().toLocaleString(),
         },
       });
-      return NextResponse.json(qualificationData);
+      if (qualificationData) return NextResponse.json(qualificationData);
     } else {
       return new NextResponse("No Profile Id found!", { status: 404 });
     }

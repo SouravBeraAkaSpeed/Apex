@@ -568,9 +568,11 @@ export type Enviroments = {
   number_of_apexians: number; // Number of members of the environment
   access_type: Privacy_type; //  Access Type of the group. If it is private then only members can see the details if public anyone
   // apexians: Partial<profile>[]; // List of Members of the group
-  rules: Rule; // ranks , level , qualifications , skills can be used to define rules to for accessing the Environment.
+  // rules: Rule; // ranks , level , qualifications , skills can be used to define rules to for accessing the Environment.
   // categories: Category[];
   // projects: Partial<Group_Projects>[];
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export enum Privacy_type {
@@ -598,7 +600,7 @@ export type profile = {
 export type All_Skills = {
   id: string;
   name: string; // Name of the skill
-  rule: Rule[]; // rules with which  this skill is associated.
+  // rule: Rule[]; // rules with which  this skill is associated.
 };
 
 export type Rule = {
@@ -644,6 +646,8 @@ export type Projects = {
   description: string; // Description of the project
   profile_id: string; //profile to which the project belong to
   // profile: profile;
+  createdAt: Date;
+  updatedAt: Date;
 };
 export type Available_skills = {
   id: string;
@@ -659,6 +663,8 @@ export type Group_Projects = {
   expected_duration: number; // Expected duration of the project in days.
   enviroment_id: string; //profile to which the project belong to
   // enviroment: Enviroments;
+  createdAt: Date;
+  updatedAt: Date;
 };
 export enum Skill_level {
   Beginner,
@@ -672,11 +678,13 @@ export type Skills = {
   Level: Skill_level; // Level of skill
   isVerified: Boolean; // Skill is verified on not
   profile_id: string; // Profile to which the skill belongs to
-  project_id: string; // project from which the skill availed from
-  qualification_id: string; // qualification  from which the skill availed from
+  project_id?: string; // project from which the skill availed from
+  qualification_id?: string; // qualification  from which the skill availed from
   // profile: profile;
   // project: Projects;
   // qualification: Qualifications;
+  createdAt: Date;
+  updatedAt: Date;
 };
 export enum Rank {
   Platform_Pioneer, // Initial Level of all Developers
@@ -708,6 +716,8 @@ export type Qualifications = {
   // Skills: Skills[]; // All the skills  should be mentioned in the certificate provided by you  for verification purposes.
   profile_id: string; // profile to which the Qualification belong to
   // profile: profile;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type Experiences = {
@@ -722,5 +732,7 @@ export type Experiences = {
   description: string; // Worked as software developer for the website
   industry: string; // Software Development
   profile_id: string; // profile to which  this experience belong to
+  createdAt: Date;
+  updatedAt: Date;
   // profile: profile;
 };

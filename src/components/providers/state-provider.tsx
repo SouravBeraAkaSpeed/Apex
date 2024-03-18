@@ -1,5 +1,17 @@
 "use client";
-import { Enviroments, profile } from "@/lib/supabase/supabase.types";
+import {
+  All_Skills,
+  Available_skills,
+  Category,
+  Enviroments,
+  Experiences,
+  Group_Projects,
+  Projects,
+  Qualifications,
+  Rule,
+  Skills,
+  profile,
+} from "@/lib/supabase/supabase.types";
 import { usePathname } from "next/navigation";
 import React, {
   Dispatch,
@@ -10,14 +22,41 @@ import React, {
   useReducer,
 } from "react";
 
+export type ProfileWithQualificationWithExperienceWithSkillsWithProjects =
+  profile & { qualifications: Qualifications[] | [] } & {
+    projects: Projects[] | [];
+  } & { skills: Skills[] | [] } & { experiences: Experiences[] | [] };
+
+export type EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects =
+  Enviroments & {
+    profiles: profile[] | [];
+  } & { rule: Rule & { min_skills_required: All_Skills[] | [] } } & {
+    categories: Category[] | [];
+  } & {
+    groupProjects: (Group_Projects & {
+      skills_required: Available_skills[] | [];
+    })[];
+  };
+
 type Action =
   | {
       type: "UPDATE_PROFILE";
-      payload: { profile: Partial<profile>; profileId: string };
+      payload: {
+        profile: Partial<ProfileWithQualificationWithExperienceWithSkillsWithProjects>;
+        profileId: string;
+      };
+    }
+  | {
+      type: "UPDATE_QUALIFICATIONS";
+      payload: {
+        qualification: Qualifications;
+      };
     }
   | {
       type: "SET_PROFILE";
-      payload: { profile: Partial<profile> };
+      payload: {
+        profile: Partial<ProfileWithQualificationWithExperienceWithSkillsWithProjects>;
+      };
     }
   | { type: "CREATE_ENVIRONMENT"; payload: Partial<Enviroments> }
   | {
@@ -30,11 +69,18 @@ type Action =
     };
 
 interface AppState {
-  environments: Partial<Enviroments>[] | []; // Environments of which the apexian is a member of
-  profile: Partial<profile>;
+  currentEnvironemnt:
+    | EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects
+    | {};
+  environments: Enviroments[] | []; // Environments of which the apexian is a member of
+  profile: ProfileWithQualificationWithExperienceWithSkillsWithProjects | {};
 }
 
-const initialState: AppState = { environments: [], profile: {} };
+const initialState: AppState = {
+  currentEnvironemnt: {},
+  environments: [],
+  profile: {},
+};
 
 const AppStateContext = createContext<
   | {
@@ -50,6 +96,19 @@ const appReducer = (
   action: Action
 ): AppState => {
   switch (action.type) {
+    case "UPDATE_QUALIFICATIONS":
+      const updatedQualifications = [
+        ...(
+          state.profile as ProfileWithQualificationWithExperienceWithSkillsWithProjects
+        ).qualifications,
+      ];
+      updatedQualifications.push(action.payload.qualification);
+
+      state.profile = {
+        ...state.profile,
+        qualifications: updatedQualifications,
+      };
+      return state;
     case "UPDATE_PROFILE":
       return {
         ...state,
@@ -61,11 +120,7 @@ const appReducer = (
         ...state,
         profile: action.payload.profile,
       };
-    case "CREATE_ENVIRONMENT":
-      return {
-        ...state,
-        environments: [...state.environments, action.payload],
-      };
+
     case "UPDATE_ENVIRONMENT":
       return {
         ...state,
@@ -83,11 +138,6 @@ const appReducer = (
           }
           return environment;
         }),
-      };
-    case "SET_ENVIRONMENTS":
-      return {
-        ...state,
-        environments: action.payload.environments,
       };
 
     default:

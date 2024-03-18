@@ -130,7 +130,8 @@ const Page = () => {
     console.log(formData.start_date.toISOString().toLocaleString());
 
     try {
-      await axios.post("/api/qualifications", formData);
+      const qualification=await axios.post("/api/qualifications", formData);
+      console.log(qualification)
       Qualificationform.reset();
       router.refresh();
     } catch (error) {
