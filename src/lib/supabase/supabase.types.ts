@@ -582,17 +582,17 @@ export enum Privacy_type {
 
 export type profile = {
   id: string;
-  firstname: string; // firstname of the developer
-  lastname: string; //lastname of the developer
-  profile_headline: string; // profile headline to be shown beneath the name
-  profile_picture: string; //  profile picture of the user
-  avatar_url: string;
+  firstname: string | null; // firstname of the developer
+  lastname: string | null; //lastname of the developer
+  profile_headline: string | null; // profile headline to be shown beneath the name
+  profile_picture: string | null; //  profile picture of the user
+  avatar_url: string | null;
   about: string | null; // about the developer
   email: string;
   onboarded: Boolean;
-  linkedin_url: string; // linkedin url of the developer
-  x_url: string; //  X url of the developer (twitter)
-  github_url: string; // github url of the developer
+  linkedin_url: string | null; // linkedin url of the developer
+  x_url: string | null; //  X url of the developer (twitter)
+  github_url: string | null; // github url of the developer
   createdAt: Date;
   updatedAt: Date;
 };
@@ -640,6 +640,7 @@ export type Category = {
 };
 export type Projects = {
   id: string;
+  title: string;
   // skills_used: Skills[]; // Skill used in the project
   github_link: string; // github link of the project
   live_link: string; // Live link of the project

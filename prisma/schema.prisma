@@ -418,6 +418,7 @@ model Badges {
 
 model Projects {
   id          String   @id @unique
+  title       String
   skills_used Skills[] // Skill used in the project 
   github_link String // github link of the project 
   live_link   String // Live link of the project

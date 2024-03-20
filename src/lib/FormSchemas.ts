@@ -36,11 +36,11 @@ export const PositionSchema = z.object({
   profile_id: z.string(),
 });
 export const SkillsSchema = z.object({
-  id: z.string().optional(), // Allow optional ID for updates
+  // Allow optional ID for updates
   skill: z.string(),
-  Level: z.nativeEnum(Skill_level), // Use the Skill_level enum for validation
-  isVerified: z.boolean(),
-  profile_id: z.string().optional(), // Profile ID can be optional for referencing in projects or qualifications
+  Level: z.string(), // Use the Skill_level enum for validation
+  // isVerified: z.boolean(),
+  // profile_id: z.string().optional(), // Profile ID can be optional for referencing in projects or qualifications
   project_id: z.string().optional(), // Project ID can be optional for referencing a project skill
   qualification_id: z.string().optional(), // Qualification ID can be optional for referencing a qualification skill
 });
@@ -54,7 +54,7 @@ export const ExperiencesSchema = z.object({
   end_date: z.date().optional(), // End date can be optional
   description: z.string(),
   industry: z.string(),
-  profile_id: z.string(),
+  // profile_id: z.string(),
 });
 export const QualificationsSchema = z.object({
   qualification: z.string(),
@@ -77,11 +77,12 @@ export const BadgesSchema = z.object({
 });
 
 export const ProjectsSchema = z.object({
-  skills_used: z.array(z.string()), // Array of skill IDs (reference skills by ID)
+  // skills_used: z.array(z.string()), // Array of skill IDs (reference skills by ID)
   github_link: z.string().url("Invalid GitHub link").optional(), // Optional GitHub link with validation
   live_link: z.string().url("Invalid live link").optional(), // Optional live link with validation
   description: z.string(),
-  profile_id: z.string(),
+  // profile_id: z.string(),
+  title: z.string(),
 });
 export const ProfileFormSchema = z.object({
   firstname: z.string().describe("First name of the Apexian"),

@@ -9,9 +9,10 @@ import {
   Projects,
   Qualifications,
   Rule,
-  Skills,
+  
   profile,
 } from "@/lib/supabase/supabase.types";
+import { Skills } from "@prisma/client";
 import { usePathname } from "next/navigation";
 import React, {
   Dispatch,
@@ -45,11 +46,16 @@ type Action =
         profile: Partial<ProfileWithQualificationWithExperienceWithSkillsWithProjects>;
       };
     }
-    
   | {
       type: "UPDATE_QUALIFICATIONS";
       payload: {
         qualification: Qualifications;
+      };
+    }
+  | {
+      type: "UPDATE_EXPERIENCES";
+      payload: {
+        experiences: Experiences;
       };
     }
   | {
@@ -111,6 +117,23 @@ const appReducer = (
                 action.payload.qualification,
               ]
             : [action.payload.qualification], // Handle empty qualifications
+        },
+      };
+    case "UPDATE_EXPERIENCES":
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          experiences: (
+            state.profile as ProfileWithQualificationWithExperienceWithSkillsWithProjects
+          ).experiences
+            ? [
+                ...(
+                  state.profile as ProfileWithQualificationWithExperienceWithSkillsWithProjects
+                ).experiences,
+                action.payload.experiences,
+              ]
+            : [action.payload.experiences], // Handle empty qualifications
         },
       };
     case "UPDATE_PROFILE":
