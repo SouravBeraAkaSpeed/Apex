@@ -2982,6 +2982,21 @@ const Page = () => {
           ))}
 
           <hr className="m-3" />
+
+          <span className="m-3">* You can now create Environment to collaborate with developers. </span> 
+          <Link href={"/create-environment"} className="w-full flex items-center">
+          
+          <Button  className="m-3 bg-black text-white w-full mx-1 mb-10  hover:bg-gray-700">
+                Create Environment 
+          </Button>
+          </Link>  
+          <span className="m-3">* To follow other environments you need to completed your profile with qualification, projects and experience(if you have) </span>     
+          <Link href={"/join-environments"} className="w-full flex items-center">
+          
+          <Button  className=" bg-black text-white w-full mx-1 mb-10  hover:bg-gray-700">
+                Join Environment 
+          </Button>
+          </Link>     
         </div>
 
         <div className="flex  flex-col md:w-[500px] mx-10 items-center justify-center shadow-lg ">
