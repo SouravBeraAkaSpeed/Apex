@@ -43,9 +43,9 @@ type Action =
       type: "UPDATE_PROFILE";
       payload: {
         profile: Partial<ProfileWithQualificationWithExperienceWithSkillsWithProjects>;
-        profileId: string;
       };
     }
+    
   | {
       type: "UPDATE_QUALIFICATIONS";
       payload: {
@@ -97,18 +97,22 @@ const appReducer = (
 ): AppState => {
   switch (action.type) {
     case "UPDATE_QUALIFICATIONS":
-      const updatedQualifications = [
-        ...(
-          state.profile as ProfileWithQualificationWithExperienceWithSkillsWithProjects
-        ).qualifications,
-      ];
-      updatedQualifications.push(action.payload.qualification);
-
-      state.profile = {
-        ...state.profile,
-        qualifications: updatedQualifications,
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          qualifications: (
+            state.profile as ProfileWithQualificationWithExperienceWithSkillsWithProjects
+          ).qualifications
+            ? [
+                ...(
+                  state.profile as ProfileWithQualificationWithExperienceWithSkillsWithProjects
+                ).qualifications,
+                action.payload.qualification,
+              ]
+            : [action.payload.qualification], // Handle empty qualifications
+        },
       };
-      return state;
     case "UPDATE_PROFILE":
       return {
         ...state,

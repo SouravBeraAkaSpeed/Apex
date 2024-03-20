@@ -587,7 +587,7 @@ export type profile = {
   profile_headline: string; // profile headline to be shown beneath the name
   profile_picture: string; //  profile picture of the user
   avatar_url: string;
-  about: string; // about the developer
+  about: string | null; // about the developer
   email: string;
   onboarded: Boolean;
   linkedin_url: string; // linkedin url of the developer
@@ -712,7 +712,7 @@ export type Qualifications = {
   end_date: Date; // (or expected)
   grade: string; // grade in the qualification
   isVerified: Boolean; // Verification takes around 30 mins and sometimes 1 day or more .
-  document_url: string; // Document related to qualification used for verification
+  document_url: string | null; // Document related to qualification used for verification
   // Skills: Skills[]; // All the skills  should be mentioned in the certificate provided by you  for verification purposes.
   profile_id: string; // profile to which the Qualification belong to
   // profile: profile;
