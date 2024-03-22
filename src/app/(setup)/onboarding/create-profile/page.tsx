@@ -29,7 +29,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Loader from "@/components/Loader";
 import { Textarea } from "@/components/ui/textarea";
-import { CalendarIcon, Edit, Loader2, Plus, Trash } from "lucide-react";
+import { CalendarIcon, Check, Edit, Loader2, Plus, Trash, X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -80,6 +80,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import ToolTip from "@/components/tool-tip";
 
 const Page = () => {
   const { toast } = useToast();
@@ -909,10 +910,36 @@ const Page = () => {
                 key={index}
               >
                 <div className="flex   w-full items-center">
-                  <div className="font-semibold text-md mx-3 flex-1">
-                    {qualification.school}{" "}
-                    {qualification.isVerified ? "Verified" : "Unverified"}
-                  </div>
+                <div className="font-semibold items-center flex text-md mx-3 flex-1 ">
+                      <div className="mr-2">{qualification.school} </div>
+                      <div>
+                        {qualification.isVerified ? (
+                          <ToolTip
+                            content={
+                              <div className="flex text-sm border-2 rounded-[20px] p-2 ">
+                                <Check className="text-white h-5 w-5 font-bold rounded-full bg-green-600" />
+                                <div className="text-black font-semibold mx-2 ">
+                                  Verified
+                                </div>{" "}
+                              </div>
+                            }
+                            tooltip="Your qualification is verified by the ai."
+                          />
+                        ) : (
+                          <ToolTip
+                            content={
+                              <div className="flex text-sm border-2 rounded-[20px] p-2 ">
+                                <X className="text-white h-5 w-5 font-bold rounded-full bg-red-600" />
+                                <div className="text-black font-semibold mx-2 ">
+                                  UnVerified
+                                </div>{" "}
+                              </div>
+                            }
+                            tooltip="Ai is in process of verifying your qualification..."
+                          />
+                        )}
+                      </div>
+                    </div>
                   <div className="font-semibold text-sm flex   rounded-[4px] cursor-pointer">
                     <DialogTrigger
                       asChild
@@ -2686,9 +2713,36 @@ const Page = () => {
                 key={index}
               >
                 <div className="flex   w-full items-center">
-                  <div className="font-semibold text-lg mx-3 flex-1">
-                    {skill.skill}
-                  </div>
+                <div className="font-semibold flex items-center text-lg mx-3 flex-1">
+                      <div className="mr-2">{skill.skill} </div>
+                      <div>
+                        {skill.isVerified ? (
+                          <ToolTip
+                            content={
+                              <div className="flex text-sm border-2 rounded-[20px] p-2 ">
+                                <Check className="text-white h-5 w-5 font-bold rounded-full bg-green-600" />
+                                <div className="text-black font-semibold mx-2 ">
+                                  Verified
+                                </div>{" "}
+                              </div>
+                            }
+                            tooltip="Your skill is verified by the ai."
+                          />
+                        ) : (
+                          <ToolTip
+                            content={
+                              <div className="flex text-sm border-2 rounded-[20px] p-2 ">
+                                <X className="text-white h-5 w-5 font-bold rounded-full bg-red-600" />
+                                <div className="text-black font-semibold mx-2 ">
+                                  UnVerified
+                                </div>{" "}
+                              </div>
+                            }
+                            tooltip="Ai is in process of verifying your skill..."
+                          />
+                        )}
+                      </div>
+                    </div>
                   <div className="font-semibold text-sm flex  rounded-[4px] cursor-pointer">
                     <DialogTrigger
                       asChild
@@ -2999,8 +3053,8 @@ const Page = () => {
           </Link>     
         </div>
 
-        <div className="flex  flex-col md:w-[500px] mx-10 items-center justify-center shadow-lg ">
-          <Card className=" h-full  bg-white text-black ">
+        <div className="flex  flex-col md:w-[500px] mx-10 items-center justify-start shadow-lg max-h-[1200px] ">
+          <Card className=" h-auto  bg-white text-black ">
             <CardHeader className="font-bold text-3xl px-9">
               <div className="flex items-center gap-2">
                 <div>

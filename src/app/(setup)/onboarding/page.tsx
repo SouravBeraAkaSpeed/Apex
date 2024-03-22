@@ -8,7 +8,7 @@ const Page = async () => {
 
   if (!profile.onboarded) redirect("/onboarding/create-profile");
 
-  return redirect("/onboarding/create-join-room");
+  return redirect("/join-environments");
 };
 
 export default Page;

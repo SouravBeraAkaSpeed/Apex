@@ -3,10 +3,11 @@ import {
   Badge_Type,
   Category,
   Enviroments,
-  Privacy_type,
+  
   Rank,
   Skill_level,
 } from "./supabase/supabase.types";
+import { Privacy_type } from "@prisma/client";
 export const FormSchema = z.object({
   email: z.string().describe("Email").email({ message: "Invalid Email" }),
   password: z.string().describe("Password").min(1, "Password is required"),
@@ -94,4 +95,28 @@ export const ProfileFormSchema = z.object({
   linkedin_url: z.string().url("Invalid LinkedIn URL").optional(),
   x_url: z.string().url("Invalid X URL").optional(),
   github_url: z.string().url("Invalid GitHub URL"),
+});
+
+
+export const EnvironmentsSchema = z.object({
+   // Allow optional ID for updates
+  name: z.string(),
+  description: z.string(),
+  rule_id: z.string(),
+  environment_imgUrl:z.string(),
+  // number_of_apexians: z.number().nonnegative(), // Number of members must be non-negative
+  access_type: z.nativeEnum(Privacy_type), // Use the Privacy_type enum for validation
+  // apexians: z.array(z.partial(profile)), // Array of partial profile objects (avoids unnecessary data transfer)
+  // rules: z.unknown(), // This schema can reference a separate Rule schema if needed (details not provided)
+  // categories: z.array(z.partial(Category)), // Array of partial Category objects
+  // projects: z.array(z.partial(ProjectsSchema)), // Array of partial Project schemas
+});
+
+export const RuleSchema = z.object({
+  // Allow optional ID for updates
+  rank_required: z.string(), // Rank required for the rule
+  min_level_required: z.string(), // Minimum level must be non-negative integer
+  min_qualification_required: z.string(),
+  min_skills_required: z.array(z.string()).length(2), // Max two skills (optional)
+  // environment: z.lazy(() => EnvironmentsSchema), // Lazy reference to Environments schema
 });

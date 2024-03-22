@@ -3,6 +3,7 @@ import Section from "../section";
 import { NAV_LINKS } from "@/constants";
 import Link from "next/link";
 import { ModeToggle } from "../mode-toggle";
+import { Button } from "../ui/button";
 
 const Navbar = () => {
   return (
@@ -42,14 +43,11 @@ const Navbar = () => {
 
       <div className="flex flex-1 items-end justify-end  ">
         <ModeToggle />
-        <Link
-          href={"/login"}
-          className="mx-4 right-0 cursor-pointer relative shadow-2xl shadow-zinc-900 dark:shadow-white rounded-full p-px text-xs font-semibold leading-6  text-black inline-block"
-        >
-          <div className="relative flex space-x-2 items-center z-10 rounded-xl bg-yellow-200 px-8  py-2">
+        <Button className="mx-4 right-0 cursor-pointer relative shadow-2xl w-[80px] bg-yellow-200 shadow-zinc-900 dark:shadow-white  p-px text-xs font-semibold leading-6  text-black inline-block">
+          <Link href={"/login"}>
             <span>Login</span>
-          </div>
-        </Link>
+          </Link>
+        </Button>
       </div>
     </header>
   );

@@ -4,6 +4,12 @@ export let IS_USER_SESSION = false;
 
 export let IS_FIRST_TIME = true;
 
+export const GROUP_DETAILS = {
+  environment_name: "Blazing AI",
+  profile: "/boardApe.png",
+  badge: "model_maestro",
+  projects_completed: 68,
+};
 export const USER = {
   id: "1",
   email: "vishal.test@gmail.com",

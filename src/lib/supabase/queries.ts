@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { currentProfile } from "../currentProfile";
 import { db } from "../db";
 import { Experiences, Projects, Qualifications } from "./supabase.types";
-import { Skills } from "@prisma/client";
+import { All_Skills, Skills } from "@prisma/client";
 
 export const fetchQualifications = async () => {
   const user = await currentProfile();
@@ -46,12 +46,11 @@ export const fetchExperiences = async () => {
   }
 };
 
-
-export const fetchProjects = async () =>{
+export const fetchProjects = async () => {
   const user = await currentProfile();
   if (!user) return redirect("/login");
 
-  let projects : Projects[] =[];
+  let projects: Projects[] = [];
   try {
     projects = await db.projects.findMany({
       where: { profile_id: user.id },
@@ -62,15 +61,13 @@ export const fetchProjects = async () =>{
     console.log("ERROR_FETCH_PROJECTS: ", error);
     return projects;
   }
+};
 
-}
-
-
-export const fetchSkills = async () =>{
+export const fetchSkills = async () => {
   const user = await currentProfile();
   if (!user) return redirect("/login");
 
-  let skills : Skills[] = [];
+  let skills: Skills[] = [];
   try {
     skills = await db.skills.findMany({
       where: { profile_id: user.id },
@@ -81,5 +78,46 @@ export const fetchSkills = async () =>{
     console.log("ERROR_FETCH_SKILLS: ", error);
     return skills;
   }
+};
 
-}
+export const uploadProfilePicture = async ({
+  profile_picture,
+  id,
+}: {
+  profile_picture: string;
+  id: string;
+}) => {
+  const user = await currentProfile();
+  if (!user) return redirect("/login");
+  try {
+    const profile = await db.profile.update({
+      where: {
+        id: id,
+      },
+      data: {
+        profile_picture: profile_picture,
+      },
+    });
+
+    return profile;
+  } catch (error) {
+    console.log("[UPLOAD_PROFILE_PICTURE]", error);
+    return user;
+  }
+};
+
+export const fetchAllSkills = async () => {
+  const user = await currentProfile();
+  if (!user) return redirect("/login");
+
+  let allSkills: All_Skills[] = [];
+
+  try {
+    allSkills = await db.all_Skills.findMany({
+      where: {},
+    });
+    return allSkills;
+  } catch (error) {
+    console.log("[FETCH_ALL_SKILL_ERROR]", error);
+  }
+};

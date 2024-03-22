@@ -506,6 +506,7 @@ model Group_Projects {
   skills_required   Available_skills[] // Skill used in the project 
   description       String // Description of the project
   prize             Int // Prize offered by the Group Owner
+  status            String
   expected_duration Int // Expected duration of the project in days.
   enviroment_id     String //profile to which the project belong to
   enviroment        Enviroments        @relation(fields: [enviroment_id], references: [id], onDelete: Cascade)
@@ -522,6 +523,7 @@ model Enviroments {
   environment_ownerId String
   name                String // Name of the group
   description         String // About the Group
+  environment_imgUrl  String?
   rule_id             String?          @unique
   number_of_apexians  Int              @default(0) // Number of members of the environment
   access_type         Privacy_type     @default(PUBLIC) //  Access Type of the group. If it is private then only members can see the details if public anyone
