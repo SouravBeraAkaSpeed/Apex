@@ -1,504 +1,506 @@
+import { Privacy_type } from "@prisma/client";
+
 export type Json =
   | string
   | number
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[]
+  | Json[];
 
 export type Database = {
   public: {
     Tables: {
       _All_SkillsToRule: {
         Row: {
-          A: string
-          B: string
-        }
+          A: string;
+          B: string;
+        };
         Insert: {
-          A: string
-          B: string
-        }
+          A: string;
+          B: string;
+        };
         Update: {
-          A?: string
-          B?: string
-        }
-        Relationships: []
-      }
+          A?: string;
+          B?: string;
+        };
+        Relationships: [];
+      };
       _Available_skillsToGroup_Projects: {
         Row: {
-          A: string
-          B: string
-        }
+          A: string;
+          B: string;
+        };
         Insert: {
-          A: string
-          B: string
-        }
+          A: string;
+          B: string;
+        };
         Update: {
-          A?: string
-          B?: string
-        }
-        Relationships: []
-      }
+          A?: string;
+          B?: string;
+        };
+        Relationships: [];
+      };
       _EnviromentsToprofile: {
         Row: {
-          A: string
-          B: string
-        }
+          A: string;
+          B: string;
+        };
         Insert: {
-          A: string
-          B: string
-        }
+          A: string;
+          B: string;
+        };
         Update: {
-          A?: string
-          B?: string
-        }
-        Relationships: []
-      }
+          A?: string;
+          B?: string;
+        };
+        Relationships: [];
+      };
       All_Skills: {
         Row: {
-          id: string
-          name: string
-        }
+          id: string;
+          name: string;
+        };
         Insert: {
-          id: string
-          name: string
-        }
+          id: string;
+          name: string;
+        };
         Update: {
-          id?: string
-          name?: string
-        }
-        Relationships: []
-      }
+          id?: string;
+          name?: string;
+        };
+        Relationships: [];
+      };
       Available_skills: {
         Row: {
-          id: string
-          name: string
-        }
+          id: string;
+          name: string;
+        };
         Insert: {
-          id: string
-          name: string
-        }
+          id: string;
+          name: string;
+        };
         Update: {
-          id?: string
-          name?: string
-        }
-        Relationships: []
-      }
+          id?: string;
+          name?: string;
+        };
+        Relationships: [];
+      };
       Badges: {
         Row: {
-          badge_type: Database["public"]["Enums"]["Badge_Type"]
-          badge_url: string
-          createdAt: string
-          id: string
-          profile_id: string
-          updatedAt: string
-        }
+          badge_type: Database["public"]["Enums"]["Badge_Type"];
+          badge_url: string;
+          createdAt: string;
+          id: string;
+          profile_id: string;
+          updatedAt: string;
+        };
         Insert: {
-          badge_type: Database["public"]["Enums"]["Badge_Type"]
-          badge_url: string
-          createdAt?: string
-          id: string
-          profile_id: string
-          updatedAt: string
-        }
+          badge_type: Database["public"]["Enums"]["Badge_Type"];
+          badge_url: string;
+          createdAt?: string;
+          id: string;
+          profile_id: string;
+          updatedAt: string;
+        };
         Update: {
-          badge_type?: Database["public"]["Enums"]["Badge_Type"]
-          badge_url?: string
-          createdAt?: string
-          id?: string
-          profile_id?: string
-          updatedAt?: string
-        }
-        Relationships: []
-      }
+          badge_type?: Database["public"]["Enums"]["Badge_Type"];
+          badge_url?: string;
+          createdAt?: string;
+          id?: string;
+          profile_id?: string;
+          updatedAt?: string;
+        };
+        Relationships: [];
+      };
       Category: {
         Row: {
-          environment_id: string
-          id: string
-          name: string
-        }
+          environment_id: string;
+          id: string;
+          name: string;
+        };
         Insert: {
-          environment_id: string
-          id: string
-          name: string
-        }
+          environment_id: string;
+          id: string;
+          name: string;
+        };
         Update: {
-          environment_id?: string
-          id?: string
-          name?: string
-        }
-        Relationships: []
-      }
+          environment_id?: string;
+          id?: string;
+          name?: string;
+        };
+        Relationships: [];
+      };
       Environment: {
         Row: {
-          access_type: Database["public"]["Enums"]["Privacy_type"]
-          createdAt: string
-          description: string
-          environment_imgUrl: string | null
-          environment_ownerId: string
-          id: string
-          name: string
-          number_of_apexians: number
-          rule_id: string | null
-          updatedAt: string
-        }
+          access_type: Database["public"]["Enums"]["Privacy_type"];
+          createdAt: string;
+          description: string | null;
+          environment_imgUrl: string | null;
+          environment_ownerId: string;
+          id: string;
+          name: string | null;
+          number_of_apexians: number;
+          rule_id: string | null;
+          updatedAt: string;
+        };
         Insert: {
-          access_type?: Database["public"]["Enums"]["Privacy_type"]
-          createdAt?: string
-          description: string
-          environment_imgUrl?: string | null
-          environment_ownerId: string
-          id: string
-          name: string
-          number_of_apexians?: number
-          rule_id?: string | null
-          updatedAt: string
-        }
+          access_type?: Database["public"]["Enums"]["Privacy_type"];
+          createdAt?: string;
+          description?: string | null;
+          environment_imgUrl?: string | null;
+          environment_ownerId: string;
+          id: string;
+          name?: string | null;
+          number_of_apexians?: number;
+          rule_id?: string | null;
+          updatedAt: string;
+        };
         Update: {
-          access_type?: Database["public"]["Enums"]["Privacy_type"]
-          createdAt?: string
-          description?: string
-          environment_imgUrl?: string | null
-          environment_ownerId?: string
-          id?: string
-          name?: string
-          number_of_apexians?: number
-          rule_id?: string | null
-          updatedAt?: string
-        }
-        Relationships: []
-      }
+          access_type?: Database["public"]["Enums"]["Privacy_type"];
+          createdAt?: string;
+          description?: string | null;
+          environment_imgUrl?: string | null;
+          environment_ownerId?: string;
+          id?: string;
+          name?: string | null;
+          number_of_apexians?: number;
+          rule_id?: string | null;
+          updatedAt?: string;
+        };
+        Relationships: [];
+      };
       Experiences: {
         Row: {
-          company: string
-          createdAt: string
-          description: string
-          end_date: string
-          id: string
-          industry: string
-          location: string
-          location_type: string
-          profile_id: string
-          start_date: string
-          title: string
-          type: string
-          updatedAt: string
-        }
+          company: string;
+          createdAt: string;
+          description: string;
+          end_date: string;
+          id: string;
+          industry: string;
+          location: string;
+          location_type: string;
+          profile_id: string;
+          start_date: string;
+          title: string;
+          type: string;
+          updatedAt: string;
+        };
         Insert: {
-          company: string
-          createdAt?: string
-          description: string
-          end_date: string
-          id: string
-          industry: string
-          location: string
-          location_type: string
-          profile_id: string
-          start_date: string
-          title: string
-          type: string
-          updatedAt: string
-        }
+          company: string;
+          createdAt?: string;
+          description: string;
+          end_date: string;
+          id: string;
+          industry: string;
+          location: string;
+          location_type: string;
+          profile_id: string;
+          start_date: string;
+          title: string;
+          type: string;
+          updatedAt: string;
+        };
         Update: {
-          company?: string
-          createdAt?: string
-          description?: string
-          end_date?: string
-          id?: string
-          industry?: string
-          location?: string
-          location_type?: string
-          profile_id?: string
-          start_date?: string
-          title?: string
-          type?: string
-          updatedAt?: string
-        }
-        Relationships: []
-      }
+          company?: string;
+          createdAt?: string;
+          description?: string;
+          end_date?: string;
+          id?: string;
+          industry?: string;
+          location?: string;
+          location_type?: string;
+          profile_id?: string;
+          start_date?: string;
+          title?: string;
+          type?: string;
+          updatedAt?: string;
+        };
+        Relationships: [];
+      };
       Group_Projects: {
         Row: {
-          createdAt: string
-          description: string
-          enviroment_id: string
-          expected_duration: number
-          id: string
-          prize: number
-          status: string
-          updatedAt: string
-        }
+          createdAt: string;
+          description: string;
+          enviroment_id: string;
+          expected_duration: number;
+          id: string;
+          prize: number;
+          status: string;
+          updatedAt: string;
+        };
         Insert: {
-          createdAt?: string
-          description: string
-          enviroment_id: string
-          expected_duration: number
-          id: string
-          prize: number
-          status: string
-          updatedAt: string
-        }
+          createdAt?: string;
+          description: string;
+          enviroment_id: string;
+          expected_duration: number;
+          id: string;
+          prize: number;
+          status: string;
+          updatedAt: string;
+        };
         Update: {
-          createdAt?: string
-          description?: string
-          enviroment_id?: string
-          expected_duration?: number
-          id?: string
-          prize?: number
-          status?: string
-          updatedAt?: string
-        }
-        Relationships: []
-      }
+          createdAt?: string;
+          description?: string;
+          enviroment_id?: string;
+          expected_duration?: number;
+          id?: string;
+          prize?: number;
+          status?: string;
+          updatedAt?: string;
+        };
+        Relationships: [];
+      };
       Position: {
         Row: {
-          createdAt: string
-          id: string
-          level: number
-          profile_id: string
-          rank: Database["public"]["Enums"]["Rank"]
-          updatedAt: string
-        }
+          createdAt: string;
+          id: string;
+          level: number;
+          profile_id: string;
+          rank: Database["public"]["Enums"]["Rank"];
+          updatedAt: string;
+        };
         Insert: {
-          createdAt?: string
-          id: string
-          level?: number
-          profile_id: string
-          rank?: Database["public"]["Enums"]["Rank"]
-          updatedAt: string
-        }
+          createdAt?: string;
+          id: string;
+          level?: number;
+          profile_id: string;
+          rank?: Database["public"]["Enums"]["Rank"];
+          updatedAt: string;
+        };
         Update: {
-          createdAt?: string
-          id?: string
-          level?: number
-          profile_id?: string
-          rank?: Database["public"]["Enums"]["Rank"]
-          updatedAt?: string
-        }
-        Relationships: []
-      }
+          createdAt?: string;
+          id?: string;
+          level?: number;
+          profile_id?: string;
+          rank?: Database["public"]["Enums"]["Rank"];
+          updatedAt?: string;
+        };
+        Relationships: [];
+      };
       profile: {
         Row: {
-          about: string | null
-          avatar_url: string | null
-          createdAt: string
-          email: string
-          firstname: string | null
-          github_url: string | null
-          id: string
-          lastname: string | null
-          linkedin_url: string | null
-          onboarded: boolean
-          profile_headline: string | null
-          profile_picture: string | null
-          updatedAt: string
-          x_url: string | null
-        }
+          about: string | null;
+          avatar_url: string | null;
+          createdAt: string;
+          email: string;
+          firstname: string | null;
+          github_url: string | null;
+          id: string;
+          lastname: string | null;
+          linkedin_url: string | null;
+          onboarded: boolean;
+          profile_headline: string | null;
+          profile_picture: string | null;
+          updatedAt: string;
+          x_url: string | null;
+        };
         Insert: {
-          about?: string | null
-          avatar_url?: string | null
-          createdAt?: string
-          email: string
-          firstname?: string | null
-          github_url?: string | null
-          id: string
-          lastname?: string | null
-          linkedin_url?: string | null
-          onboarded?: boolean
-          profile_headline?: string | null
-          profile_picture?: string | null
-          updatedAt?: string
-          x_url?: string | null
-        }
+          about?: string | null;
+          avatar_url?: string | null;
+          createdAt?: string;
+          email: string;
+          firstname?: string | null;
+          github_url?: string | null;
+          id: string;
+          lastname?: string | null;
+          linkedin_url?: string | null;
+          onboarded?: boolean;
+          profile_headline?: string | null;
+          profile_picture?: string | null;
+          updatedAt?: string;
+          x_url?: string | null;
+        };
         Update: {
-          about?: string | null
-          avatar_url?: string | null
-          createdAt?: string
-          email?: string
-          firstname?: string | null
-          github_url?: string | null
-          id?: string
-          lastname?: string | null
-          linkedin_url?: string | null
-          onboarded?: boolean
-          profile_headline?: string | null
-          profile_picture?: string | null
-          updatedAt?: string
-          x_url?: string | null
-        }
-        Relationships: []
-      }
+          about?: string | null;
+          avatar_url?: string | null;
+          createdAt?: string;
+          email?: string;
+          firstname?: string | null;
+          github_url?: string | null;
+          id?: string;
+          lastname?: string | null;
+          linkedin_url?: string | null;
+          onboarded?: boolean;
+          profile_headline?: string | null;
+          profile_picture?: string | null;
+          updatedAt?: string;
+          x_url?: string | null;
+        };
+        Relationships: [];
+      };
       Projects: {
         Row: {
-          createdAt: string
-          description: string
-          github_link: string
-          id: string
-          live_link: string
-          profile_id: string
-          title: string
-          updatedAt: string
-        }
+          createdAt: string;
+          description: string;
+          github_link: string;
+          id: string;
+          live_link: string;
+          profile_id: string;
+          title: string;
+          updatedAt: string;
+        };
         Insert: {
-          createdAt?: string
-          description: string
-          github_link: string
-          id: string
-          live_link: string
-          profile_id: string
-          title: string
-          updatedAt: string
-        }
+          createdAt?: string;
+          description: string;
+          github_link: string;
+          id: string;
+          live_link: string;
+          profile_id: string;
+          title: string;
+          updatedAt: string;
+        };
         Update: {
-          createdAt?: string
-          description?: string
-          github_link?: string
-          id?: string
-          live_link?: string
-          profile_id?: string
-          title?: string
-          updatedAt?: string
-        }
-        Relationships: []
-      }
+          createdAt?: string;
+          description?: string;
+          github_link?: string;
+          id?: string;
+          live_link?: string;
+          profile_id?: string;
+          title?: string;
+          updatedAt?: string;
+        };
+        Relationships: [];
+      };
       Qualifications: {
         Row: {
-          createdAt: string
-          document_url: string | null
-          end_date: string
-          field_of_study: string
-          grade: string
-          id: string
-          isVerified: boolean
-          profile_id: string
-          qualification: string
-          school: string
-          start_date: string
-          updatedAt: string
-        }
+          createdAt: string;
+          document_url: string | null;
+          end_date: string;
+          field_of_study: string;
+          grade: string;
+          id: string;
+          isVerified: boolean;
+          profile_id: string;
+          qualification: string;
+          school: string;
+          start_date: string;
+          updatedAt: string;
+        };
         Insert: {
-          createdAt?: string
-          document_url?: string | null
-          end_date: string
-          field_of_study: string
-          grade: string
-          id: string
-          isVerified?: boolean
-          profile_id: string
-          qualification: string
-          school: string
-          start_date: string
-          updatedAt: string
-        }
+          createdAt?: string;
+          document_url?: string | null;
+          end_date: string;
+          field_of_study: string;
+          grade: string;
+          id: string;
+          isVerified?: boolean;
+          profile_id: string;
+          qualification: string;
+          school: string;
+          start_date: string;
+          updatedAt: string;
+        };
         Update: {
-          createdAt?: string
-          document_url?: string | null
-          end_date?: string
-          field_of_study?: string
-          grade?: string
-          id?: string
-          isVerified?: boolean
-          profile_id?: string
-          qualification?: string
-          school?: string
-          start_date?: string
-          updatedAt?: string
-        }
-        Relationships: []
-      }
+          createdAt?: string;
+          document_url?: string | null;
+          end_date?: string;
+          field_of_study?: string;
+          grade?: string;
+          id?: string;
+          isVerified?: boolean;
+          profile_id?: string;
+          qualification?: string;
+          school?: string;
+          start_date?: string;
+          updatedAt?: string;
+        };
+        Relationships: [];
+      };
       Rule: {
         Row: {
-          environment_id: string
-          id: string
-          min_level_required: number
-          min_qualification_required: string
-          rank_required: string
-        }
+          environment_id: string;
+          id: string;
+          min_level_required: number;
+          min_qualification_required: string;
+          rank_required: string;
+        };
         Insert: {
-          environment_id: string
-          id: string
-          min_level_required: number
-          min_qualification_required: string
-          rank_required: string
-        }
+          environment_id: string;
+          id: string;
+          min_level_required: number;
+          min_qualification_required: string;
+          rank_required: string;
+        };
         Update: {
-          environment_id?: string
-          id?: string
-          min_level_required?: number
-          min_qualification_required?: string
-          rank_required?: string
-        }
-        Relationships: []
-      }
+          environment_id?: string;
+          id?: string;
+          min_level_required?: number;
+          min_qualification_required?: string;
+          rank_required?: string;
+        };
+        Relationships: [];
+      };
       Skills: {
         Row: {
-          createdAt: string
-          id: string
-          isVerified: boolean
-          Level: Database["public"]["Enums"]["Skill_level"]
-          profile_id: string
-          project_id: string | null
-          qualification_id: string | null
-          skill: string
-          updatedAt: string
-        }
+          createdAt: string;
+          id: string;
+          isVerified: boolean;
+          Level: Database["public"]["Enums"]["Skill_level"];
+          profile_id: string;
+          project_id: string | null;
+          qualification_id: string | null;
+          skill: string;
+          updatedAt: string;
+        };
         Insert: {
-          createdAt?: string
-          id: string
-          isVerified?: boolean
-          Level?: Database["public"]["Enums"]["Skill_level"]
-          profile_id: string
-          project_id?: string | null
-          qualification_id?: string | null
-          skill: string
-          updatedAt: string
-        }
+          createdAt?: string;
+          id: string;
+          isVerified?: boolean;
+          Level?: Database["public"]["Enums"]["Skill_level"];
+          profile_id: string;
+          project_id?: string | null;
+          qualification_id?: string | null;
+          skill: string;
+          updatedAt: string;
+        };
         Update: {
-          createdAt?: string
-          id?: string
-          isVerified?: boolean
-          Level?: Database["public"]["Enums"]["Skill_level"]
-          profile_id?: string
-          project_id?: string | null
-          qualification_id?: string | null
-          skill?: string
-          updatedAt?: string
-        }
-        Relationships: []
-      }
+          createdAt?: string;
+          id?: string;
+          isVerified?: boolean;
+          Level?: Database["public"]["Enums"]["Skill_level"];
+          profile_id?: string;
+          project_id?: string | null;
+          qualification_id?: string | null;
+          skill?: string;
+          updatedAt?: string;
+        };
+        Relationships: [];
+      };
       users: {
         Row: {
-          billing_address: Json | null
-          email: string
-          full_name: string | null
-          id: string
-          payment_method: Json | null
-          profile_picture: string | null
-        }
+          billing_address: Json | null;
+          email: string;
+          full_name: string | null;
+          id: string;
+          payment_method: Json | null;
+          profile_picture: string | null;
+        };
         Insert: {
-          billing_address?: Json | null
-          email: string
-          full_name?: string | null
-          id: string
-          payment_method?: Json | null
-          profile_picture?: string | null
-        }
+          billing_address?: Json | null;
+          email: string;
+          full_name?: string | null;
+          id: string;
+          payment_method?: Json | null;
+          profile_picture?: string | null;
+        };
         Update: {
-          billing_address?: Json | null
-          email?: string
-          full_name?: string | null
-          id?: string
-          payment_method?: Json | null
-          profile_picture?: string | null
-        }
-        Relationships: []
-      }
-    }
+          billing_address?: Json | null;
+          email?: string;
+          full_name?: string | null;
+          id?: string;
+          payment_method?: Json | null;
+          profile_picture?: string | null;
+        };
+        Relationships: [];
+      };
+    };
     Views: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Functions: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Enums: {
       Badge_Type:
         | "Discussion_Dynamo"
@@ -511,8 +513,8 @@ export type Database = {
         | "Cloud_Commander"
         | "Security_Sentinel"
         | "Problem_Solving_Sleuth"
-        | "Testing_Titan"
-      Privacy_type: "PRIVATE" | "PUBLIC"
+        | "Testing_Titan";
+      Privacy_type: "PRIVATE" | "PUBLIC";
       Rank:
         | "Platform_Pioneer"
         | "Neural_Network_Architect"
@@ -521,16 +523,16 @@ export type Database = {
         | "Machine_Learning_Mastermind"
         | "Security_Sentinel"
         | "Cloud_Maestro"
-        | "UI_UX_Architect"
-      Skill_level: "Beginner" | "Intermediate" | "Advanced"
-    }
+        | "UI_UX_Architect";
+      Skill_level: "Beginner" | "Intermediate" | "Advanced";
+    };
     CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-}
+      [_ in never]: never;
+    };
+  };
+};
 
-type PublicSchema = Database[Extract<keyof Database, "public">]
+type PublicSchema = Database[Extract<keyof Database, "public">];
 
 export type Tables<
   PublicTableNameOrOptions extends
@@ -539,23 +541,23 @@ export type Tables<
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
         Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R
+      Row: infer R;
     }
     ? R
     : never
   : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
-        PublicSchema["Views"])
-    ? (PublicSchema["Tables"] &
-        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
-        Row: infer R
-      }
-      ? R
-      : never
+      PublicSchema["Views"])
+  ? (PublicSchema["Tables"] &
+      PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+      Row: infer R;
+    }
+    ? R
     : never
+  : never;
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
@@ -563,20 +565,20 @@ export type TablesInsert<
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
+      Insert: infer I;
     }
     ? I
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Insert: infer I
-      }
-      ? I
-      : never
+  ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+      Insert: infer I;
+    }
+    ? I
     : never
+  : never;
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
@@ -584,20 +586,20 @@ export type TablesUpdate<
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
+      Update: infer U;
     }
     ? U
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Update: infer U
-      }
-      ? U
-      : never
+  ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+      Update: infer U;
+    }
+    ? U
     : never
+  : never;
 
 export type Enums<
   PublicEnumNameOrOptions extends
@@ -605,20 +607,21 @@ export type Enums<
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never = never
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
-    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
-    : never
+  ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+  : never;
 
 export type Enviroments = {
   id: string;
-  name: string; // Name of the group
+  name?: string; // Name of the group
   environment_ownerId: string;
-  description: string; // About the Group
-  rule_id: string;
-  number_of_apexians: number; // Number of members of the environment
+  description?: string; // About the Group
+  rule_id: string | null;
+  environment_imgUrl: string | null;
+  number_of_apexians?: number; // Number of members of the environment
   access_type: Privacy_type; //  Access Type of the group. If it is private then only members can see the details if public anyone
   // apexians: Partial<profile>[]; // List of Members of the group
   // rules: Rule; // ranks , level , qualifications , skills can be used to define rules to for accessing the Environment.
@@ -628,10 +631,10 @@ export type Enviroments = {
   updatedAt: Date;
 };
 
-export enum Privacy_type {
-  PRIVATE,
-  PUBLIC,
-}
+// export enum Privacy_type {
+//   PRIVATE,
+//   PUBLIC,
+// }
 
 export type profile = {
   id: string;

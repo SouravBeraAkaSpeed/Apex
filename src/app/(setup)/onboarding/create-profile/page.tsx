@@ -81,6 +81,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import ToolTip from "@/components/tool-tip";
+import { v4 } from "uuid";
 
 const Page = () => {
   const { toast } = useToast();
@@ -3038,7 +3039,7 @@ const Page = () => {
           <hr className="m-3" />
 
           <span className="m-3">* You can now create Environment to collaborate with developers. </span> 
-          <Link href={"/create-environment"} className="w-full flex items-center">
+          <Link href={`/create-environment/${v4()}`} className="w-full flex items-center">
           
           <Button  className="m-3 bg-black text-white w-full mx-1 mb-10  hover:bg-gray-700">
                 Create Environment 

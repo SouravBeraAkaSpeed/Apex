@@ -15,6 +15,13 @@
 
 # production
 /build
+/src/(main)
+/src/(setup)
+/src/api
+
+/src/components/dashboard
+/src/components/providers
+/src/lib/supabase
 
 # misc
 .DS_Store

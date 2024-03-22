@@ -523,12 +523,12 @@ model Enviroments {
   environment_ownerId String
   name                String // Name of the group
   description         String // About the Group
-  environment_imgUrl  String?
+  environment_imgUrl  String
   rule_id             String?          @unique
   number_of_apexians  Int              @default(0) // Number of members of the environment
   access_type         Privacy_type     @default(PUBLIC) //  Access Type of the group. If it is private then only members can see the details if public anyone
   apexians            profile[] // List of Members of the group
-  rules               Rule? // ranks , level , qualifications , skills can be used to define rules to for accessing the Environment.
+  // rules               Rule? // ranks , level , qualifications , skills can be used to define rules to for accessing the Environment.
   categories          Category[]
   projects            Group_Projects[]
   createdAt           DateTime         @default(now())
@@ -558,13 +558,13 @@ model All_Skills {
 }
 
 model Rule {
-  id                         String       @id
+  id                         String       @id @unique
   rank_required              String // Rank required for the rule
   min_level_required         Int // minimum  level required for the rule
   min_qualification_required String //  Minimum qualifications required for the rule
   environment_id             String       @unique // environment  where the rule applies to
   min_skills_required        All_Skills[] // Max two skills can be choosed
-  environment                Enviroments  @relation(fields: [environment_id], references: [id])
+  // environment                Enviroments  @relation(fields: [environment_id], references: [id],onDelete: Cascade)
 
   @@index([environment_id])
   @@map("Rule")

@@ -3,8 +3,14 @@
 import { redirect } from "next/navigation";
 import { currentProfile } from "../currentProfile";
 import { db } from "../db";
-import { Experiences, Projects, Qualifications } from "./supabase.types";
+import {
+  Enviroments,
+  Experiences,
+  Projects,
+  Qualifications,
+} from "./supabase.types";
 import { All_Skills, Skills } from "@prisma/client";
+import { RuleWithAllSkill } from "@/components/providers/state-provider";
 
 export const fetchQualifications = async () => {
   const user = await currentProfile();
@@ -119,5 +125,47 @@ export const fetchAllSkills = async () => {
     return allSkills;
   } catch (error) {
     console.log("[FETCH_ALL_SKILL_ERROR]", error);
+  }
+};
+
+export const fetchRules = async (environment_id: string) => {
+  const user = await currentProfile();
+  if (!user) return redirect("/login");
+
+  let rulesWithAllSkillsData: RuleWithAllSkill | null = null;
+  try {
+    rulesWithAllSkillsData = await db.rule.findFirst({
+      where: {
+        environment_id: environment_id,
+      },
+      include:{
+        min_skills_required:true
+      }
+    }) ;
+
+    return rulesWithAllSkillsData;
+  } catch (error) {
+    console.log("[FETCH_RULES_WITH_ALLSKILLS]", error);
+    return rulesWithAllSkillsData;
+  }
+};
+
+export const fetchEnvironmentDetails = async (environment_id: string) => {
+  const user = await currentProfile();
+  if (!user) return redirect("/login");
+
+  let environmentData: Partial<Enviroments> | null = {};
+
+  try {
+    environmentData = await db.enviroments.findUnique({
+      where:{
+        id:environment_id
+      }
+    })
+    
+    return environmentData
+  } catch (error) {
+    console.log("[FETCH_ENVIRONMENT_DETAILS]", error);
+    return environmentData;
   }
 };

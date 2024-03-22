@@ -9,7 +9,6 @@ import {
   Projects,
   Qualifications,
   Rule,
-  
   profile,
 } from "@/lib/supabase/supabase.types";
 import { Skills } from "@prisma/client";
@@ -28,15 +27,19 @@ export type ProfileWithQualificationWithExperienceWithSkillsWithProjects =
     projects: Projects[] | [];
   } & { skills: Skills[] | [] } & { experiences: Experiences[] | [] };
 
+export type RuleWithAllSkill = Rule & {
+  min_skills_required: All_Skills[] | [];
+};
+export type GroupProjectWithSkillsRequired = Group_Projects & {
+  skills_required: Available_skills[] | [];
+};
 export type EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects =
   Enviroments & {
     profiles: profile[] | [];
-  } & { rule: Rule & { min_skills_required: All_Skills[] | [] } } & {
+  } & { rule: RuleWithAllSkill } & {
     categories: Category[] | [];
   } & {
-    groupProjects: (Group_Projects & {
-      skills_required: Available_skills[] | [];
-    })[];
+    groupProjects: GroupProjectWithSkillsRequired[];
   };
 
 type Action =
@@ -67,7 +70,10 @@ type Action =
   | { type: "CREATE_ENVIRONMENT"; payload: Partial<Enviroments> }
   | {
       type: "UPDATE_ENVIRONMENT";
-      payload: { environment: Partial<Enviroments>; environmentId: string };
+      payload: {
+        environment: EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects;
+        environmentId: string;
+      };
     }
   | {
       type: "SET_ENVIRONMENTS";
@@ -78,7 +84,9 @@ interface AppState {
   currentEnvironemnt:
     | EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects
     | {};
-  environments: Enviroments[] | []; // Environments of which the apexian is a member of
+  environments:
+    | EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects[]
+    | []; // Environments of which the apexian is a member of
   profile: ProfileWithQualificationWithExperienceWithSkillsWithProjects | {};
 }
 
@@ -151,20 +159,21 @@ const appReducer = (
     case "UPDATE_ENVIRONMENT":
       return {
         ...state,
-        environments: state.environments.map((environment) => {
-          console.log("check: ", environment, action.payload);
-          if (environment.id === action.payload.environmentId) {
-            console.log("updated environment:", {
-              ...environment,
-              ...action.payload.environment,
-            });
-            return {
-              ...environment,
-              ...action.payload.environment,
-            };
-          }
-          return environment;
-        }),
+        environments:
+          (
+            state.environments as EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects[]
+          ).length > 0
+            ? state.environments.map((environment) => {
+                if (environment.id === action.payload.environmentId) {
+                  
+                  return {
+                    ...(environment as EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects),
+                    ...action.payload.environment,
+                  };
+                }
+                return environment;
+              })
+            : [action.payload.environment],
       };
 
     default:

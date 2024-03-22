@@ -3,7 +3,6 @@ import {
   Badge_Type,
   Category,
   Enviroments,
-  
   Rank,
   Skill_level,
 } from "./supabase/supabase.types";
@@ -97,13 +96,12 @@ export const ProfileFormSchema = z.object({
   github_url: z.string().url("Invalid GitHub URL"),
 });
 
-
 export const EnvironmentsSchema = z.object({
-   // Allow optional ID for updates
+  // Allow optional ID for updates
   name: z.string(),
   description: z.string(),
-  rule_id: z.string(),
-  environment_imgUrl:z.string(),
+  rule_id: z.string().optional(),
+  environment_imgUrl: z.string(),
   // number_of_apexians: z.number().nonnegative(), // Number of members must be non-negative
   access_type: z.nativeEnum(Privacy_type), // Use the Privacy_type enum for validation
   // apexians: z.array(z.partial(profile)), // Array of partial profile objects (avoids unnecessary data transfer)
