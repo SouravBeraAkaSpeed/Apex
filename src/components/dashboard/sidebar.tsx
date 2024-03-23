@@ -81,7 +81,7 @@ const Sidebar = ({ environmentId }: { environmentId: string }) => {
           <div>
             <Link href={`/edit-environment/?env=${environmentId}`}>
               <div className="flex border-2 items-center justify-center bg-yellow-200 rounded-[20px]  p-2 font-semibold text-black">
-                <div className="flex text-center">Edit Environment</div>
+                <div className="lg:flex text-center hidden">Edit Environment</div>
                 <div className="flex mx-1">
                   <Edit />
                 </div>

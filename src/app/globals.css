@@ -75,6 +75,9 @@
   }
 }
 
+nextjs-portal {
+  display: none;
+}
 
 .custom-h1-border-black {
   -webkit-text-stroke: 2px #000000;

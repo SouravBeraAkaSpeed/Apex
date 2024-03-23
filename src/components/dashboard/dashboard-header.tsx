@@ -68,9 +68,12 @@ const Header = ({ environmentId }: { environmentId: string }) => {
                 <span>Profile</span>
               </Link>
 
-              <Link className="flex gap-2 items-center" href="/settings">
+              <Link
+                className="flex gap-2 items-center"
+                href={`/edit-environment/?env=${environmentId}`}
+              >
                 <IoIosSettings className="h-4 w-4" />
-                <span>Settings</span>
+                <span>Edit Environment</span>
               </Link>
             </PopoverContent>
           </Popover>

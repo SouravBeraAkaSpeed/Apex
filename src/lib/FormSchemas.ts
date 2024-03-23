@@ -118,3 +118,21 @@ export const RuleSchema = z.object({
   min_skills_required: z.array(z.string()), // Max two skills (optional)
   // environment: z.lazy(() => EnvironmentsSchema), // Lazy reference to Environments schema
 });
+
+export const courseSchema = z.object({
+  title: z.string().optional(),
+  description: z.string().optional(),
+  image: z.string().optional(),
+  price: z.number().optional(),
+  video: z.string().optional(),
+  published: z.boolean().optional(),
+});
+
+export const chapterSchema = z.object({
+  title: z.string().optional(),
+  video: z.string().url().optional(),
+  image: z.string().url().optional(),
+  description: z.string().optional(),
+  // chapterAccess: z.enum(["FREE", "PAID"]).optional(),
+  published: z.boolean().optional(),
+});
