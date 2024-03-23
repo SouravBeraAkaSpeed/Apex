@@ -115,6 +115,6 @@ export const RuleSchema = z.object({
   rank_required: z.string(), // Rank required for the rule
   min_level_required: z.string(), // Minimum level must be non-negative integer
   min_qualification_required: z.string(),
-  min_skills_required: z.array(z.string()).length(2), // Max two skills (optional)
+  min_skills_required: z.array(z.string()), // Max two skills (optional)
   // environment: z.lazy(() => EnvironmentsSchema), // Lazy reference to Environments schema
 });

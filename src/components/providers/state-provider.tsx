@@ -34,7 +34,7 @@ export type GroupProjectWithSkillsRequired = Group_Projects & {
   skills_required: Available_skills[] | [];
 };
 export type EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects =
-  Enviroments & {
+  Partial<Enviroments> & {
     profiles: profile[] | [];
   } & { rule: RuleWithAllSkill } & {
     categories: Category[] | [];
@@ -71,21 +71,31 @@ type Action =
   | {
       type: "UPDATE_ENVIRONMENT";
       payload: {
-        environment: EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects;
+        environment: Partial<EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects>;
         environmentId: string;
       };
     }
   | {
       type: "SET_ENVIRONMENTS";
-      payload: { environments: Partial<Enviroments>[] | [] };
+      payload: {
+        environments:
+          | Partial<EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects>[]
+          | [];
+      };
+    }
+  | {
+      type: "SET_CURRENTENVIRONMENT";
+      payload: {
+        environment: Partial<EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects>;
+      };
     };
 
 interface AppState {
   currentEnvironemnt:
-    | EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects
+    | Partial<EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects>
     | {};
   environments:
-    | EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects[]
+    | Partial<EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects>[]
     | []; // Environments of which the apexian is a member of
   profile: ProfileWithQualificationWithExperienceWithSkillsWithProjects | {};
 }
@@ -165,7 +175,6 @@ const appReducer = (
           ).length > 0
             ? state.environments.map((environment) => {
                 if (environment.id === action.payload.environmentId) {
-                  
                   return {
                     ...(environment as EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects),
                     ...action.payload.environment,
@@ -174,6 +183,18 @@ const appReducer = (
                 return environment;
               })
             : [action.payload.environment],
+      };
+
+    case "SET_ENVIRONMENTS":
+      return {
+        ...state,
+        environments: action.payload.environments,
+      };
+
+    case "SET_CURRENTENVIRONMENT":
+      return {
+        ...state,
+        currentEnvironemnt: action.payload.environment,
       };
 
     default:

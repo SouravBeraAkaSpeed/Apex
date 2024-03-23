@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import AppStateProvider from "@/components/providers/state-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { SupabaseUserProvider } from "@/components/providers/supabase-user-provider";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const font = Open_Sans({ subsets: ["latin"] });
 

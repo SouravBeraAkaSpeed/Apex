@@ -1,3 +1,4 @@
+"use client";
 import RenderChart from "@/components/dashboard/chart";
 import UserBadge from "@/components/user-badge";
 
@@ -13,9 +14,26 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { ChatOllama } from "@langchain/community/chat_models/ollama";
+import { useEffect } from "react";
 
 const DashboardPage = ({ params }: { params: { environmentId: string } }) => {
-  
+  // const ollamaLlm = new ChatOllama({
+  //   baseUrl: "http://localhost:11434", // Default value
+  //   model: "mistral", // Default value
+  // });
+
+  // useEffect(() => {
+  //   const ollamatest = async () => {
+  //     console.log("runned")
+  //     const response = await ollamaLlm.invoke(
+  //       "Simulate a rap battle between Stephen Colbert and John Oliver"
+  //     );
+  //     console.log("response :", response.content);
+  //   };
+
+  //   ollamatest();
+  // }, [ollamaLlm]);
 
   return (
     <div className="w-full">
@@ -96,25 +114,27 @@ const DashboardPage = ({ params }: { params: { environmentId: string } }) => {
               </TableHeader>
               <TableBody>
                 {/* Mock data */}
-                {Array(5).fill(0).map((index) => (
-                  <TableRow className="max-h-[20px]  truncate" key={index}>
-                    <TableCell className="font-medium max-w-[200px] truncate">
-                      AI Collab
-                    </TableCell>
-                    <TableCell className="font-medium truncate">
-                      4 weeks
-                    </TableCell>
-                    <TableCell className="font-medium max-w-[400px] truncate">
-                      Fullstack, real time and ML
-                    </TableCell>
-                    <TableCell className="font-medium truncate">
-                      <Badge className="">Ongoing</Badge>
-                    </TableCell>
-                    <TableCell className="font-medium text-right truncate">
-                      AI Collab
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {Array(5)
+                  .fill(0)
+                  .map((index) => (
+                    <TableRow className="max-h-[20px]  truncate" key={index+index}>
+                      <TableCell className="font-medium max-w-[200px] truncate">
+                        AI Collab
+                      </TableCell>
+                      <TableCell className="font-medium truncate">
+                        4 weeks
+                      </TableCell>
+                      <TableCell className="font-medium max-w-[400px] truncate">
+                        Fullstack, real time and ML
+                      </TableCell>
+                      <TableCell className="font-medium truncate">
+                        <Badge className="">Ongoing</Badge>
+                      </TableCell>
+                      <TableCell className="font-medium text-right truncate">
+                        AI Collab
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </section>

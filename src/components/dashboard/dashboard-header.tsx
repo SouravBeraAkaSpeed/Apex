@@ -5,13 +5,23 @@ import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import Link from "next/link";
+import { Edit } from "lucide-react";
 
-const Header = () => {
+const Header = ({environmentId}:{environmentId:string}) => {
   return (
     <div className="lg:hidden w-full dark:bg-black/20 h-16 fixed backdrop-blur-md z-50 ">
       <div className="flex justify-between items-center h-full px-4">
         <h1 className="text-4xl font-extrabold  text-brand/yellow">APEX</h1>
+
         <div className="flex items-center gap-12">
+          <Link href={`/edit-environment/?env=${environmentId}`}>
+            <div className="flex border-2 bg-yellow-200 rounded-[20px]  p-2 font-semibold text-black">
+              <div className="flex">Edit Environment</div>
+              <div className="flex mx-1">
+                <Edit />
+              </div>
+            </div>
+          </Link>
           <Popover>
             <PopoverTrigger>
               <Avatar className="h-12 w-12 border-2 border-black">

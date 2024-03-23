@@ -14,12 +14,28 @@ export async function middleware(req: NextRequest) {
   const {
     data: { session },
   } = await supabase.auth.getSession();
+ 
+
+  if (session) {
+    if (req.nextUrl.pathname.startsWith("/dashboard")) {
+      return res;
+    }
+  }
+
+  
   if (
     req.nextUrl.pathname.startsWith("/onboarding") ||
     matchPathnamePattern(req.nextUrl.pathname)
   ) {
     if (!session) {
       return NextResponse.redirect(new URL("/login", req.url));
+    } else {
+      return res;
+    }
+  }
+  if (["/login"].includes(req.nextUrl.pathname)) {
+    if (session) {
+      return NextResponse.redirect(new URL("/onboarding", req.url));
     }
   }
 
@@ -38,10 +54,5 @@ export async function middleware(req: NextRequest) {
     );
   }
 
-  if (["/login"].includes(req.nextUrl.pathname)) {
-    if (session) {
-      return NextResponse.redirect(new URL("/onboarding", req.url));
-    }
-  }
   return res;
 }

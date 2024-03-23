@@ -3095,7 +3095,7 @@ const Page = () => {
               * You can now create Environment to collaborate with developers.{" "}
             </span>
             <Link
-              href={`/create-environment/${v4()}`}
+              href={`/create-environment`}
               className="w-full flex items-center"
             >
               <Button className="m-3 bg-black text-white w-full mx-1 mb-10  hover:bg-gray-700">

@@ -24,6 +24,11 @@ export async function POST(req: Request) {
         },
         update: newEnvironment,
         create: {
+          apexians: {
+            connect: {
+              id: profile_id,
+            },
+          },
           access_type: newEnvironment.access_type
             ? newEnvironment.access_type
             : Privacy_type.PUBLIC,

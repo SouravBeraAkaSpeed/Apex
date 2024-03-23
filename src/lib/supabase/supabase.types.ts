@@ -711,9 +711,15 @@ export type Available_skills = {
   name: string; // Name of the skill
   // group_projects: Group_Projects[]; // Projects that use this skill
 };
+export enum ProjectStatus {
+  Ongoing = "Ongoing",
+  Pending = "Pending",
+  Completed = "Completed",
+}
 
 export type Group_Projects = {
   id: string;
+  status:string;
   // skills_required: Available_skills[]; // Skill used in the project
   description: string; // Description of the project
   prize: number; // Prize offered by the Group Owner

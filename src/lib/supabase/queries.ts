@@ -138,10 +138,10 @@ export const fetchRules = async (environment_id: string) => {
       where: {
         environment_id: environment_id,
       },
-      include:{
-        min_skills_required:true
-      }
-    }) ;
+      include: {
+        min_skills_required: true,
+      },
+    });
 
     return rulesWithAllSkillsData;
   } catch (error) {
@@ -158,14 +158,38 @@ export const fetchEnvironmentDetails = async (environment_id: string) => {
 
   try {
     environmentData = await db.enviroments.findUnique({
-      where:{
-        id:environment_id
-      }
-    })
-    
-    return environmentData
+      where: {
+        id: environment_id,
+      },
+    });
+
+    return environmentData;
   } catch (error) {
     console.log("[FETCH_ENVIRONMENT_DETAILS]", error);
     return environmentData;
+  }
+};
+
+export const fetchEnvironments = async () => {
+  const user = await currentProfile();
+  if (!user) return redirect("/login");
+
+  let enviroments: Partial<Enviroments>[] = [];
+
+  try {
+    enviroments = await db.enviroments.findMany({
+      where: {
+        apexians: {
+          some: {
+            id: user.id,
+          },
+        },
+      },
+    });
+
+    return enviroments;
+  } catch (error) {
+    console.log("[FETCHENVIRONMENTS_ERROR]", error);
+    return enviroments;
   }
 };

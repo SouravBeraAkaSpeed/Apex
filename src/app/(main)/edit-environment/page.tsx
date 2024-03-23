@@ -39,6 +39,7 @@ import { EnvironmentsSchema, RuleSchema } from "@/lib/FormSchemas";
 import {
   fetchAllSkills,
   fetchEnvironmentDetails,
+  fetchEnvironments,
   fetchRules,
 } from "@/lib/supabase/queries";
 import {
@@ -97,15 +98,26 @@ const Page = () => {
     // console.log(rulesData);
     // console.log("rules:", rulesData);
     // const apexians = await fetchEnvProfiles();
-    const environment: Partial<Enviroments> | null =
+    const currentenvironment: Partial<Enviroments> | null =
       await fetchEnvironmentDetails(environmentId);
+
+    const environemnts: Partial<EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects>[] =
+      await fetchEnvironments();
+
+    if (environemnts) {
+      let updatedEnvironments: Partial<EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects>[] =
+        [];
+      console.log(environemnts);
+      updatedEnvironments.push(...environemnts);
+    }
+
     // console.log(environment);
     // const categoriesData: Category[] | null = await fetchCategories();
     // const groupProjectData: GroupProjectWithSkillsRequired[] | undefined =
     //   await fetchGroupProjects();
-    if (environment) {
+    if (currentenvironment) {
       let updatedEnvironment: Partial<EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects>;
-      updatedEnvironment = environment ? environment : {};
+      updatedEnvironment = currentenvironment ? currentenvironment : {};
       console.log(updatedEnvironment);
       // updatedEnvironment.profiles = apexians;
       updatedEnvironment.rule = rulesData ? rulesData : undefined;
@@ -120,16 +132,25 @@ const Page = () => {
         },
       });
 
+      dispatch({
+        type: "SET_CURRENTENVIRONMENT",
+        payload: {
+          environment: currentenvironment,
+        },
+      });
+
       Environmentform.reset({
-        name: environment?.name ? environment?.name : "",
-        description: environment?.description ? environment?.description : "",
-        environment_imgUrl: environment?.environment_imgUrl
-          ? environment?.environment_imgUrl
+        name: currentenvironment?.name ? currentenvironment?.name : "",
+        description: currentenvironment?.description
+          ? currentenvironment?.description
           : "",
-        access_type: environment?.access_type
-          ? environment?.access_type
+        environment_imgUrl: currentenvironment?.environment_imgUrl
+          ? currentenvironment?.environment_imgUrl
+          : "",
+        access_type: currentenvironment?.access_type
+          ? currentenvironment?.access_type
           : "PUBLIC",
-        rule_id: environment?.rule_id ? environment.rule_id : "",
+        rule_id: currentenvironment?.rule_id ? currentenvironment.rule_id : "",
       });
     }
 
@@ -217,40 +238,40 @@ const Page = () => {
           title: "Add rules",
           description: `Add rules that will govern who can enter the environment`,
         });
-        setenvironmentId(environemnt.data.id);
       }
+      setenvironmentId(environemnt.data.id);
       Environmentform.reset();
-      if (environmentId) {
-        router.push(
-          `/${environmentId ? environmentId : environemnt.data.id}/dashboard`
-        );
-      } else {
-        router.push(
-          `/create-environment/?env=${
-            environmentId ? environmentId : environemnt.data.id
-          }`
-        );
-      }
+      router.push(
+        `/edit-environment/?env=${
+          environmentId ? environmentId : environemnt.data.id
+        }`
+      );
     } catch (error) {
       console.log("Error at axios: ", error);
     }
   };
+
+  if (dataLoading || environmentId === "")
+    return (
+      <div className="flex text-black flex-1 justify-center items-center h-[300px]">
+        <Loader2 className="h-7 w-7 text-black dark:text-white animate-spin my-4" />
+        <p className="text-xs text-black dark:text-white ">Loading ...</p>
+      </div>
+    );
   return (
     <div className="z-10 h-full">
       <div className="mt-10 text-black dark:text-white flex flex-col items-center justify-center">
-        <div className=" flex text-[40px] font-semibold">
-          Create Environment
-        </div>
-        <span className="flex text-sm dark:text-gray-400 text-black">
-          Create a new environment to collaborate with developers for your
-          project.
+        <div className=" flex text-[40px] font-semibold">Edit Environment</div>
+        <span className="flex text-sm text-center w-[76%] dark:text-gray-400 text-black">
+          Edit your environment will judge who will be able to collaborate
+          within your enviroment for your project.
         </span>
       </div>
 
       {dataLoading ? (
         <div className="flex text-black flex-1 justify-center items-center h-[300px]">
-          <Loader2 className="h-7 w-7 text-black  animate-spin my-4" />
-          <p className="text-xs text-black  ">Loading ...</p>
+          <Loader2 className="h-7 w-7 text-black dark:text-white animate-spin my-4" />
+          <p className="text-xs text-black dark:text-white ">Loading ...</p>
         </div>
       ) : (
         <div className="flex gap-y-10 md:gap-y-0 flex-col md:flex-row justify-center px-10 mt-10 md:mb-10 ">

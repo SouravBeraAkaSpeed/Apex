@@ -1,4 +1,3 @@
-
 "use client";
 
 import { SIDEBAR_LINKS } from "@/constants";
@@ -19,12 +18,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Edit } from "lucide-react";
+import { useAppState } from "../providers/state-provider";
 
 const Sidebar = ({ environmentId }: { environmentId: string }) => {
   const session = USER;
   const pathname = usePathname();
   const router = useRouter();
+  const {state} = useAppState();
 
   return (
     <div className="mt-16 lg:mt-0 h-screen w-10 lg:w-[16rem] fixed dark:bg-black/20 rounded-r z-1">
@@ -77,7 +78,17 @@ const Sidebar = ({ environmentId }: { environmentId: string }) => {
               })}
             </div>
           </div>
-          <div className="hidden lg:flex items-center gap-2 mb-20 border border-brand/yellow/20 rounded-full p-2 bg-brand/yellow/10">
+          <div>
+          <Link href={`/edit-environment/?env=${environmentId}`}>
+              <div className="flex border-2 items-center justify-center bg-yellow-200 rounded-[20px]  p-2 font-semibold text-black">
+                <div className="flex text-center">Edit Environment</div>
+                <div className="flex mx-1">
+                  <Edit/>
+                </div>
+              </div>
+            </Link>
+          <div className="hidden lg:flex items-center gap-2 mb-20 border mt-2 border-brand/yellow/20 rounded-full p-2 bg-brand/yellow/10">
+            
             <Popover>
               <PopoverTrigger>
                 <Avatar className="h-12 w-12 border-2 border-black">
@@ -102,9 +113,8 @@ const Sidebar = ({ environmentId }: { environmentId: string }) => {
                 </Link>
               </PopoverContent>
             </Popover>
-            <h2 className="truncate  text-sm">
-                {session.email}
-                </h2>
+            <h2 className="truncate  text-sm">{session.email}</h2>
+          </div>
           </div>
         </div>
       </div>
