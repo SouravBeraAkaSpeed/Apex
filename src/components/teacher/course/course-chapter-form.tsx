@@ -18,7 +18,7 @@ import clsx from "clsx";
 import { randomUUID } from "crypto";
 import { Cross, Edit, Ghost, Pencil, Plus, PlusCircle } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoExit } from "react-icons/io5";
 import { z } from "zod";
@@ -26,11 +26,16 @@ import { z } from "zod";
 interface CourseChapterFormProps {
   data: any; //Change it later
   courseId: string;
+  environmentId: string;
 }
 
 const logoStyle = "h-4 w-4";
 
-const CourseChapterForm = ({ data, courseId }: CourseChapterFormProps) => {
+const CourseChapterForm = ({
+  data,
+  courseId,
+  environmentId,
+}: CourseChapterFormProps) => {
   const [isEditable, setIsEditable] = useState<boolean>(false);
 
   // mock chapters
@@ -61,9 +66,18 @@ const CourseChapterForm = ({ data, courseId }: CourseChapterFormProps) => {
 
   const onSubmit = (values: z.infer<typeof chapterSchema>) => {
     // add the chapter title to the db
-    console.log({...values});
-    
+    console.log({ ...values });
+    values.title &&
+      setChapters([
+        ...chapters,
+        { ...values, id: chapters.length + 1, isPublished: true },
+      ]);
+    setIsEditable(false);
   };
+
+  useEffect(() => {
+    console.log(chapters);
+  }, [chapters]);
 
   return (
     <div className="dark:bg-black/20 px-4 py-2 rounded-xl border-2">
@@ -113,7 +127,7 @@ const CourseChapterForm = ({ data, courseId }: CourseChapterFormProps) => {
                         </p>
                       </Badge>
                       <Link
-                        href={`/teach/create/${courseId}/chapter/${chapter.id}`}
+                        href={`/${environmentId}/create-course/${courseId}/chapter/${chapter.id}`}
                       >
                         <Edit className={logoStyle} />
                       </Link>

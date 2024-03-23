@@ -1,4 +1,3 @@
-
 import CourseChapterForm from "@/components/teacher/course/course-chapter-form";
 import CourseDescriptionForm from "@/components/teacher/course/course-description-form";
 import CourseImageForm from "@/components/teacher/course/course-image-form";
@@ -10,7 +9,11 @@ import { TEACHER_DETAILS } from "@/mockdata";
 import { Trash } from "lucide-react";
 import React from "react";
 
-const page = ({ params }: { params: { courseId: string } }) => {
+const page = ({
+  params,
+}: {
+  params: { courseId: string; environmentId: string };
+}) => {
   const details = TEACHER_DETAILS[0].courses[0];
 
   return (
@@ -47,7 +50,11 @@ const page = ({ params }: { params: { courseId: string } }) => {
               <h1 className="text-xl font-semibold text-brand/yellow mb-6">
                 Course chapters
               </h1>
-              <CourseChapterForm data={details} courseId={params.courseId} />
+              <CourseChapterForm
+                environmentId={params.environmentId}
+                data={details}
+                courseId={params.courseId}
+              />
             </div>
             <div>
               <h1 className="text-xl font-semibold text-brand/yellow mb-6">

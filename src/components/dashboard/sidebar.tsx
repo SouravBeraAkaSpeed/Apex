@@ -58,9 +58,10 @@ const Sidebar = ({ environmentId }: { environmentId: string }) => {
             </div>
             <div className=" flex flex-col items-start gap-6">
               {SIDEBAR_LINKS.map((link) => {
+                console.log(pathname.split("/"),link.href.split("/")[1].toLowerCase())
                 const selected = pathname
                   .split("/")
-                  .includes(link.label.toLowerCase());
+                  .includes(link.href.split("/")[1].toLowerCase());
                 return (
                   <Link
                     href={`/${environmentId}${link.href}`}

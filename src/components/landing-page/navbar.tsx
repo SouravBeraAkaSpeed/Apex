@@ -53,16 +53,16 @@ const Navbar = () => {
                 className="rounded-full w-full h-full"
               />
             </PopoverTrigger>
-            <PopoverContent>
+            <PopoverContent className="w-[100px] flex flex-col">
               <Link
                 href={"/profile"}
-                className=" flex mx-3 items-center justify-center cursor-pointer shadow-2xl rounded-full bg-yellow-200 "
+                className=" flex mx-3 items-center justify-center cursor-pointer shadow-2xl rounded-full"
               >
                 profile
               </Link>
               <Button
                 onClick={handleSignOut}
-                className=" flex mx-3 items-center justify-center cursor-pointer shadow-2xl rounded-full bg-yellow-200 "
+                className=" flex  items-center bg-transparent text-white justify-center cursor-pointer shadow-2xl rounded-[10px] p-2"
               >
                 Logout
               </Button>

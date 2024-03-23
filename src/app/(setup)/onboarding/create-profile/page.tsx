@@ -29,7 +29,15 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Loader from "@/components/Loader";
 import { Textarea } from "@/components/ui/textarea";
-import { CalendarIcon, Check, Edit, Loader2, Plus, Trash, X } from "lucide-react";
+import {
+  CalendarIcon,
+  Check,
+  Edit,
+  Loader2,
+  Plus,
+  Trash,
+  X,
+} from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -85,9 +93,7 @@ import { v4 } from "uuid";
 
 const Page = () => {
   const { toast } = useToast();
-  const user = USER_ONBOARDING_DETAILS;
   const [submitError, setSubmitError] = useState("");
-  const [confirmation, setConfirmation] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [uploadingdocument, setUploadingdocument] = useState(false);
   const router = useRouter();
@@ -147,7 +153,13 @@ const Page = () => {
   };
   useEffect(() => {
     console.log(state);
-    fetchData();
+    if (
+      (
+        state.profile as ProfileWithQualificationWithExperienceWithSkillsWithProjects
+      ).onboarded
+    ) {
+      fetchData();
+    }
   }, []);
 
   const form = useForm<z.infer<typeof ProfileFormSchema>>({
@@ -312,7 +324,7 @@ const Page = () => {
   const onSubmit: SubmitHandler<z.infer<typeof ProfileFormSchema>> = async (
     formData
   ) => {
-    console.log(formData);
+    console.log("profile:", formData);
 
     try {
       const profile = await axios.post("/api/profile", formData);
@@ -374,9 +386,6 @@ const Page = () => {
           ) : (
             <Form {...form}>
               <form
-                onChange={() => {
-                  if (submitError) setSubmitError("");
-                }}
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="w-full text-black   mt-6 space-y-4 flex flex-col "
               >
@@ -570,7 +579,10 @@ const Page = () => {
                   </div>
                 </div>
 
-                <Button type="submit" className="m-3 bg-black text-white">
+                <Button
+                  type="submit"
+                  className="m-3 bg-black border-2 hover:bg-white hover:text-black text-white "
+                >
                   Submit
                 </Button>
               </form>
@@ -662,7 +674,7 @@ const Page = () => {
                                     <Input
                                       type="text"
                                       className=" text-black  mt-2  bg-white w-full"
-                                      placeholder="Ex: Bachelor&apos;s of Technology"
+                                      placeholder="Ex: Bachelor's of Technology"
                                       {...field}
                                     />
                                   </FormControl>
@@ -888,7 +900,7 @@ const Page = () => {
                               type="submit"
                               disabled={uploadingdocument}
                               variant="ghost"
-                              className="border-2 border-black hover:bg-gray-300 w-full"
+                              className="border-2 border-black hover:bg-gray-300 hover:text-black w-full"
                             >
                               Save changes
                             </Button>
@@ -911,40 +923,40 @@ const Page = () => {
                 key={index}
               >
                 <div className="flex   w-full items-center">
-                <div className="font-semibold items-center flex text-md mx-3 flex-1 ">
-                      <div className="mr-2">{qualification.school} </div>
-                      <div>
-                        {qualification.isVerified ? (
-                          <ToolTip
-                            content={
-                              <div className="flex text-sm border-2 rounded-[20px] p-2 ">
-                                <Check className="text-white h-5 w-5 font-bold rounded-full bg-green-600" />
-                                <div className="text-black font-semibold mx-2 ">
-                                  Verified
-                                </div>{" "}
-                              </div>
-                            }
-                            tooltip="Your qualification is verified by the ai."
-                          />
-                        ) : (
-                          <ToolTip
-                            content={
-                              <div className="flex text-sm border-2 rounded-[20px] p-2 ">
-                                <X className="text-white h-5 w-5 font-bold rounded-full bg-red-600" />
-                                <div className="text-black font-semibold mx-2 ">
-                                  UnVerified
-                                </div>{" "}
-                              </div>
-                            }
-                            tooltip="Ai is in process of verifying your qualification..."
-                          />
-                        )}
-                      </div>
+                  <div className="font-semibold items-center flex text-md mx-3 flex-1 ">
+                    <div className="mr-2">{qualification.school} </div>
+                    <div>
+                      {qualification.isVerified ? (
+                        <ToolTip
+                          content={
+                            <div className="flex text-sm border-2 rounded-[20px] p-2 ">
+                              <Check className="text-white h-5 w-5 font-bold rounded-full bg-green-600" />
+                              <div className="text-black font-semibold mx-2 ">
+                                Verified
+                              </div>{" "}
+                            </div>
+                          }
+                          tooltip="Your qualification is verified by the ai."
+                        />
+                      ) : (
+                        <ToolTip
+                          content={
+                            <div className="flex text-sm border-2 rounded-[20px] p-2 ">
+                              <X className="text-white h-5 w-5 font-bold rounded-full bg-red-600" />
+                              <div className="text-black font-semibold mx-2 ">
+                                UnVerified
+                              </div>{" "}
+                            </div>
+                          }
+                          tooltip="Ai is in process of verifying your qualification..."
+                        />
+                      )}
                     </div>
+                  </div>
                   <div className="font-semibold text-sm flex   rounded-[4px] cursor-pointer">
                     <DialogTrigger
                       asChild
-                      className="bg-white text-black border-2 p-1 mx-1 hover:bg-white"
+                      className="bg-white text-black border-2 p-1 mx-1 "
                     >
                       <Button
                         onClick={() => {
@@ -1052,7 +1064,7 @@ const Page = () => {
                                       <Input
                                         type="text"
                                         className=" text-black  mt-2  bg-white w-full"
-                                        placeholder="Ex: Bachelor&apos;s of Technology"
+                                        placeholder="Ex: Bachelor's of Technology"
                                         {...field}
                                       />
                                     </FormControl>
@@ -1296,7 +1308,7 @@ const Page = () => {
                                 type="submit"
                                 disabled={uploadingdocument}
                                 variant="ghost"
-                                className="border-2 border-black hover:bg-gray-300 w-full"
+                                className="border-2 border-black hover:text-black hover:bg-gray-300 w-full"
                               >
                                 Save changes
                               </Button>
@@ -1324,10 +1336,7 @@ const Page = () => {
                     </div>
                     <div className="font-semibold text-lg border-2 p-2 rounded-[4px] cursor-pointer">
                       {" "}
-                      <DialogTrigger
-                        asChild
-                        className="bg-white text-black hover:bg-white"
-                      >
+                      <DialogTrigger asChild className="bg-white text-black ">
                         <Button
                           onClick={() => {
                             setexperienceId("");
@@ -1644,7 +1653,7 @@ const Page = () => {
                             <Button
                               type="submit"
                               variant="ghost"
-                              className="border-2 border-black hover:bg-gray-300 w-full"
+                              className="border-2 border-black hover:bg-gray-300 hover:text-black w-full"
                             >
                               Save changes
                             </Button>
@@ -2155,7 +2164,7 @@ const Page = () => {
                                     <Input
                                       type="text"
                                       className=" text-black  mt-2 bg-white w-full"
-                                      placeholder="Ex: Created a full-stack replica of the popular discussion platform &apos;Threads&apos; , enabling users to post an engage in threaded conversations."
+                                      placeholder="Ex: Created a full-stack replica of the popular discussion platform 'Threads' , enabling users to post an engage in threaded conversations."
                                       {...field}
                                     />
                                   </FormControl>
@@ -2348,7 +2357,7 @@ const Page = () => {
                                       <Input
                                         type="text"
                                         className=" text-black  mt-2 bg-white w-full"
-                                        placeholder="Ex: Created a full-stack replica of the popular discussion platform &apos;Threads&apos; , enabling users to post an engage in threaded conversations."
+                                        placeholder="Ex: Created a full-stack replica of the popular discussion platform 'Threads' , enabling users to post an engage in threaded conversations."
                                         {...field}
                                       />
                                     </FormControl>
@@ -2482,8 +2491,8 @@ const Page = () => {
                             </li>
 
                             <li className="my-2">
-                              Until the skill is verified by Ai , you won&apos;t be
-                              able to apply to any projects
+                              Until the skill is verified by Ai , you won&apos;t
+                              be able to apply to any projects
                             </li>
                           </ul>
                         </div>
@@ -2491,10 +2500,10 @@ const Page = () => {
 
                       {((
                         state.profile as ProfileWithQualificationWithExperienceWithSkillsWithProjects
-                      ).qualifications.length > 0 ||
+                      ).qualifications?.length > 0 ||
                         (
                           state.profile as ProfileWithQualificationWithExperienceWithSkillsWithProjects
-                        ).projects.length > 0) && (
+                        ).projects?.length > 0) && (
                         <Form {...SkillsForm}>
                           <form
                             onChange={() => {
@@ -2605,7 +2614,7 @@ const Page = () => {
                                             </SelectLabel>
                                             {(
                                               state.profile as ProfileWithQualificationWithExperienceWithSkillsWithProjects
-                                            )?.projects.map(
+                                            )?.projects?.map(
                                               (project, index) => (
                                                 <SelectItem
                                                   value={project.id}
@@ -2637,8 +2646,8 @@ const Page = () => {
                               </span>
 
                               <span className="text-xs mb-1">
-                                *If the document your provide doesn&apos;t resembles
-                                with skill then your skill will not be
+                                *If the document your provide doesn&apos;t
+                                resembles with skill then your skill will not be
                                 considered valid
                               </span>
 
@@ -2666,7 +2675,7 @@ const Page = () => {
                                             </SelectLabel>
                                             {(
                                               state.profile as ProfileWithQualificationWithExperienceWithSkillsWithProjects
-                                            )?.qualifications.map(
+                                            )?.qualifications?.map(
                                               (qualification, index) => (
                                                 <SelectItem
                                                   value={qualification.id}
@@ -2714,36 +2723,36 @@ const Page = () => {
                 key={index}
               >
                 <div className="flex   w-full items-center">
-                <div className="font-semibold flex items-center text-lg mx-3 flex-1">
-                      <div className="mr-2">{skill.skill} </div>
-                      <div>
-                        {skill.isVerified ? (
-                          <ToolTip
-                            content={
-                              <div className="flex text-sm border-2 rounded-[20px] p-2 ">
-                                <Check className="text-white h-5 w-5 font-bold rounded-full bg-green-600" />
-                                <div className="text-black font-semibold mx-2 ">
-                                  Verified
-                                </div>{" "}
-                              </div>
-                            }
-                            tooltip="Your skill is verified by the ai."
-                          />
-                        ) : (
-                          <ToolTip
-                            content={
-                              <div className="flex text-sm border-2 rounded-[20px] p-2 ">
-                                <X className="text-white h-5 w-5 font-bold rounded-full bg-red-600" />
-                                <div className="text-black font-semibold mx-2 ">
-                                  UnVerified
-                                </div>{" "}
-                              </div>
-                            }
-                            tooltip="Ai is in process of verifying your skill..."
-                          />
-                        )}
-                      </div>
+                  <div className="font-semibold flex items-center text-lg mx-3 flex-1">
+                    <div className="mr-2">{skill.skill} </div>
+                    <div>
+                      {skill.isVerified ? (
+                        <ToolTip
+                          content={
+                            <div className="flex text-sm border-2 rounded-[20px] p-2 ">
+                              <Check className="text-white h-5 w-5 font-bold rounded-full bg-green-600" />
+                              <div className="text-black font-semibold mx-2 ">
+                                Verified
+                              </div>{" "}
+                            </div>
+                          }
+                          tooltip="Your skill is verified by the ai."
+                        />
+                      ) : (
+                        <ToolTip
+                          content={
+                            <div className="flex text-sm border-2 rounded-[20px] p-2 ">
+                              <X className="text-white h-5 w-5 font-bold rounded-full bg-red-600" />
+                              <div className="text-black font-semibold mx-2 ">
+                                UnVerified
+                              </div>{" "}
+                            </div>
+                          }
+                          tooltip="Ai is in process of verifying your skill..."
+                        />
+                      )}
                     </div>
+                  </div>
                   <div className="font-semibold text-sm flex  rounded-[4px] cursor-pointer">
                     <DialogTrigger
                       asChild
@@ -2807,18 +2816,18 @@ const Page = () => {
                               </li>
 
                               <li className="my-2">
-                                Until the skill is verified by Ai , you won&apos;t be
-                                able to apply to any projects
+                                Until the skill is verified by Ai , you
+                                won&apos;t be able to apply to any projects
                               </li>
                             </ul>
                           </div>
                         </DialogHeader>
                         {((
                           state.profile as ProfileWithQualificationWithExperienceWithSkillsWithProjects
-                        ).qualifications.length > 0 ||
+                        ).qualifications?.length > 0 ||
                           (
                             state.profile as ProfileWithQualificationWithExperienceWithSkillsWithProjects
-                          ).projects.length > 0) && (
+                          ).projects?.length > 0) && (
                           <Form {...SkillsForm}>
                             <form
                               onChange={() => {
@@ -3038,20 +3047,29 @@ const Page = () => {
 
           <hr className="m-3" />
 
-          <span className="m-3">* You can now create Environment to collaborate with developers. </span> 
-          <Link href={`/create-environment/${v4()}`} className="w-full flex items-center">
-          
-          <Button  className="m-3 bg-black text-white w-full mx-1 mb-10  hover:bg-gray-700">
-                Create Environment 
-          </Button>
-          </Link>  
-          <span className="m-3">* To follow other environments you need to completed your profile with qualification, projects and experience(if you have) </span>     
-          <Link href={"/join-environments"} className="w-full flex items-center">
-          
-          <Button  className=" bg-black text-white w-full mx-1 mb-10  hover:bg-gray-700">
-                Join Environment 
-          </Button>
-          </Link>     
+          <span className="m-3">
+            * You can now create Environment to collaborate with developers.{" "}
+          </span>
+          <Link
+            href={`/create-environment`}
+            className="w-full flex items-center"
+          >
+            <Button className="m-3 bg-black text-white w-full mx-1 mb-10  hover:bg-gray-700">
+              Create Environment
+            </Button>
+          </Link>
+          <span className="m-3">
+            * To follow other environments you need to completed your profile
+            with qualification, projects and experience(if you have){" "}
+          </span>
+          <Link
+            href={"/join-environments"}
+            className="w-full flex items-center"
+          >
+            <Button className=" bg-black text-white w-full mx-1 mb-10  hover:bg-gray-700">
+              Join Environment
+            </Button>
+          </Link>
         </div>
 
         <div className="flex  flex-col md:w-[500px] mx-10 items-center justify-start shadow-lg max-h-[1200px] ">
@@ -3240,7 +3258,7 @@ const Page = () => {
                     <div className="mt-2 text-xs">
                       {(
                         state.profile as ProfileWithQualificationWithExperienceWithSkillsWithProjects
-                      ).projects.map((project, index) => (
+                      ).projects?.map((project, index) => (
                         <div className="mb-4" key={index}>
                           <div className="flex">
                             <div className=" flex-1 text-sm font-semibold">
@@ -3284,7 +3302,7 @@ const Page = () => {
                     <ul className="flex flex-wrap gap-2">
                       {(
                         state.profile as ProfileWithQualificationWithExperienceWithSkillsWithProjects
-                      )?.skills.map((skill, index) => (
+                      )?.skills?.map((skill, index) => (
                         <li key={index}>• {skill.skill}</li>
                       ))}
                     </ul>

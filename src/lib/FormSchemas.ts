@@ -129,7 +129,7 @@ export const courseSchema = z.object({
 });
 
 export const chapterSchema = z.object({
-  title: z.string().optional(),
+  title: z.string(),
   video: z.string().url().optional(),
   image: z.string().url().optional(),
   description: z.string().optional(),

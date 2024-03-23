@@ -1,4 +1,5 @@
 import { IoChatbubblesSharp, IoFolderOpenSharp } from "react-icons/io5";
+import { FaBookOpen } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { SlBadge } from "react-icons/sl";
 
@@ -34,8 +35,8 @@ export const SIDEBAR_LINKS = [
     icon: IoChatbubblesSharp,
   },
   {
-    label: "Achievements",
-    href: "/achievements",
-    icon: SlBadge,
+    label: "Create Course",
+    href: "/create-course",
+    icon: FaBookOpen,
   },
 ];

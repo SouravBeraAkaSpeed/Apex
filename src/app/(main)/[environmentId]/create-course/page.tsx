@@ -1,6 +1,5 @@
 "use client";
 
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -19,7 +18,13 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { courseSchema } from "@/lib/FormSchemas";
 
-const page = () => {
+const page = ({
+  params,
+}: {
+  params: {
+    environmentId: string;
+  };
+}) => {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof courseSchema>>({
@@ -31,7 +36,7 @@ const page = () => {
 
   function onSubmit(values: z.infer<typeof courseSchema>) {
     // create a new course on db and get the id back and push
-    router.push(`/teach/create/${values.title}`);
+    router.push(`/${params.environmentId}/create-course/${values.title}`);
   }
 
   return (
