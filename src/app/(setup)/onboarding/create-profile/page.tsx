@@ -662,7 +662,7 @@ const Page = () => {
                                     <Input
                                       type="text"
                                       className=" text-black  mt-2  bg-white w-full"
-                                      placeholder="Ex: Bachelor's of Technology"
+                                      placeholder="Ex: Bachelor&apos;s of Technology"
                                       {...field}
                                     />
                                   </FormControl>
@@ -1052,7 +1052,7 @@ const Page = () => {
                                       <Input
                                         type="text"
                                         className=" text-black  mt-2  bg-white w-full"
-                                        placeholder="Ex: Bachelor's of Technology"
+                                        placeholder="Ex: Bachelor&apos;s of Technology"
                                         {...field}
                                       />
                                     </FormControl>
@@ -2155,7 +2155,7 @@ const Page = () => {
                                     <Input
                                       type="text"
                                       className=" text-black  mt-2 bg-white w-full"
-                                      placeholder="Ex: Created a full-stack replica of the popular discussion platform 'Threads' , enabling users to post an engage in threaded conversations."
+                                      placeholder="Ex: Created a full-stack replica of the popular discussion platform &apos;Threads&apos; , enabling users to post an engage in threaded conversations."
                                       {...field}
                                     />
                                   </FormControl>
@@ -2348,7 +2348,7 @@ const Page = () => {
                                       <Input
                                         type="text"
                                         className=" text-black  mt-2 bg-white w-full"
-                                        placeholder="Ex: Created a full-stack replica of the popular discussion platform 'Threads' , enabling users to post an engage in threaded conversations."
+                                        placeholder="Ex: Created a full-stack replica of the popular discussion platform &apos;Threads&apos; , enabling users to post an engage in threaded conversations."
                                         {...field}
                                       />
                                     </FormControl>
@@ -2482,7 +2482,7 @@ const Page = () => {
                             </li>
 
                             <li className="my-2">
-                              Until the skill is verified by Ai , you won't be
+                              Until the skill is verified by Ai , you won&apos;t be
                               able to apply to any projects
                             </li>
                           </ul>
@@ -2637,7 +2637,7 @@ const Page = () => {
                               </span>
 
                               <span className="text-xs mb-1">
-                                *If the document your provide doesn't resembles
+                                *If the document your provide doesn&apos;t resembles
                                 with skill then your skill will not be
                                 considered valid
                               </span>
@@ -2807,7 +2807,7 @@ const Page = () => {
                               </li>
 
                               <li className="my-2">
-                                Until the skill is verified by Ai , you won't be
+                                Until the skill is verified by Ai , you won&apos;t be
                                 able to apply to any projects
                               </li>
                             </ul>
@@ -2965,7 +2965,7 @@ const Page = () => {
                                 </span>
 
                                 <span className="text-xs mb-1">
-                                  *If the document your provide doesn't
+                                  *If the document your provide doesn&apos;t
                                   resembles with skill then your skill will not
                                   be considered valid
                                 </span>

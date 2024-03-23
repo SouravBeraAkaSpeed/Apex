@@ -9,6 +9,7 @@ import {
 } from "@/components/providers/state-provider";
 import {
   fetchEnvironmentDetails,
+  fetchEnvironments,
   fetchExperiences,
   fetchProfile,
   fetchProjects,
@@ -38,7 +39,6 @@ const Layout = ({
   const [dataLoading, setDataLoading] = useState(true);
   const [rules, setRules] = useState<RuleWithAllSkill[]>([]);
   const { state, dispatch } = useAppState();
-
   const fetchData = async () => {
     setDataLoading(true);
     const rulesData: RuleWithAllSkill | null = await fetchRules(
@@ -47,8 +47,18 @@ const Layout = ({
     // console.log(rulesData);
     // console.log("rules:", rulesData);
     // const apexians = await fetchEnvProfiles();
-    const environment: Partial<Enviroments> | null =
+    const currentenvironment: Partial<Enviroments> | null =
       await fetchEnvironmentDetails(params.environmentId);
+
+    const environemnts: Partial<EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects>[] =
+      await fetchEnvironments();
+
+    if (environemnts) {
+      let updatedEnvironments: Partial<EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects>[] =
+        [];
+      console.log(environemnts);
+      updatedEnvironments.push(...environemnts);
+    }
 
     const qualificationData: Qualifications[] | null =
       await fetchQualifications();
@@ -69,13 +79,14 @@ const Layout = ({
       type: "UPDATE_PROFILE",
       payload: { profile: updatedProfile },
     });
+
     // console.log(environment);
     // const categoriesData: Category[] | null = await fetchCategories();
     // const groupProjectData: GroupProjectWithSkillsRequired[] | undefined =
     //   await fetchGroupProjects();
-    if (environment) {
+    if (currentenvironment) {
       let updatedEnvironment: Partial<EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects>;
-      updatedEnvironment = environment ? environment : {};
+      updatedEnvironment = currentenvironment ? currentenvironment : {};
       console.log(updatedEnvironment);
       // updatedEnvironment.profiles = apexians;
       updatedEnvironment.rule = rulesData ? rulesData : undefined;
@@ -89,6 +100,13 @@ const Layout = ({
           environmentId: params.environmentId,
         },
       });
+
+      dispatch({
+        type: "SET_CURRENTENVIRONMENT",
+        payload: {
+          environment: currentenvironment,
+        },
+      });
     }
 
     setDataLoading(false);
@@ -96,13 +114,15 @@ const Layout = ({
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, []);
 
   if (dataLoading)
     return (
       <div className="flex text-black flex-1 justify-center items-center h-[300px]">
         <Loader2 className="h-7 w-7 text-black dark:text-white animate-spin my-4" />
-        <p className="text-xs text-black dark:text-white ">Loading Your Environment...</p>
+        <p className="text-xs text-black dark:text-white ">
+          Loading Your Environment...
+        </p>
       </div>
     );
 
