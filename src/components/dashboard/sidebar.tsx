@@ -25,7 +25,7 @@ const Sidebar = ({ environmentId }: { environmentId: string }) => {
   const session = USER;
   const pathname = usePathname();
   const router = useRouter();
-  const {state} = useAppState();
+  const { state } = useAppState();
 
   return (
     <div className="mt-16 lg:mt-0 h-screen w-10 lg:w-[16rem] fixed dark:bg-black/20 rounded-r z-1">
@@ -48,11 +48,11 @@ const Sidebar = ({ environmentId }: { environmentId: string }) => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {/* {session.environments.map((team, index) => (
-                    <SelectItem value={team} key={index}>
-                      {team}
+                  {state.environments.map((env, index) => (
+                    <SelectItem value={env?.id ? env.id : ""} key={index}>
+                      {env?.name ? env.name : ""}
                     </SelectItem>
-                  ))} */}
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -79,42 +79,41 @@ const Sidebar = ({ environmentId }: { environmentId: string }) => {
             </div>
           </div>
           <div>
-          <Link href={`/edit-environment/?env=${environmentId}`}>
+            <Link href={`/edit-environment/?env=${environmentId}`}>
               <div className="flex border-2 items-center justify-center bg-yellow-200 rounded-[20px]  p-2 font-semibold text-black">
                 <div className="flex text-center">Edit Environment</div>
                 <div className="flex mx-1">
-                  <Edit/>
+                  <Edit />
                 </div>
               </div>
             </Link>
-          <div className="hidden lg:flex items-center gap-2 mb-20 border mt-2 border-brand/yellow/20 rounded-full p-2 bg-brand/yellow/10">
-            
-            <Popover>
-              <PopoverTrigger>
-                <Avatar className="h-12 w-12 border-2 border-black">
-                  <AvatarImage src="/boardApe.png" />
-                  <AvatarFallback>
-                    <FaUser />
-                  </AvatarFallback>
-                </Avatar>
-              </PopoverTrigger>
-              <PopoverContent
-                align="start"
-                className="w-auto flex flex-col items-start gap-3"
-              >
-                <Link className="flex items-center gap-2" href="/profile">
-                  <FaUser className="h-4 w-4" />
-                  <span>Profile</span>
-                </Link>
+            <div className="hidden lg:flex items-center gap-2 mb-20 border mt-2 border-brand/yellow/20 rounded-full p-2 bg-brand/yellow/10">
+              <Popover>
+                <PopoverTrigger>
+                  <Avatar className="h-12 w-12 border-2 border-black">
+                    <AvatarImage src="/boardApe.png" />
+                    <AvatarFallback>
+                      <FaUser />
+                    </AvatarFallback>
+                  </Avatar>
+                </PopoverTrigger>
+                <PopoverContent
+                  align="start"
+                  className="w-auto flex flex-col items-start gap-3"
+                >
+                  <Link className="flex items-center gap-2" href="/profile">
+                    <FaUser className="h-4 w-4" />
+                    <span>Profile</span>
+                  </Link>
 
-                <Link className="flex gap-2 items-center" href="/settings">
-                  <IoIosSettings className="h-4 w-4" />
-                  <span>Settings</span>
-                </Link>
-              </PopoverContent>
-            </Popover>
-            <h2 className="truncate  text-sm">{session.email}</h2>
-          </div>
+                  <Link className="flex gap-2 items-center" href="/settings">
+                    <IoIosSettings className="h-4 w-4" />
+                    <span>Settings</span>
+                  </Link>
+                </PopoverContent>
+              </Popover>
+              <h2 className="truncate  text-sm">{session.email}</h2>
+            </div>
           </div>
         </div>
       </div>

@@ -6,22 +6,50 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import Link from "next/link";
 import { Edit } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { useAppState } from "../providers/state-provider";
+import { useRouter } from "next/navigation";
 
-const Header = ({environmentId}:{environmentId:string}) => {
+const Header = ({ environmentId }: { environmentId: string }) => {
+  const { state } = useAppState();
+  const router = useRouter();
   return (
     <div className="lg:hidden w-full dark:bg-black/20 h-16 fixed backdrop-blur-md z-50 ">
       <div className="flex justify-between items-center h-full px-4">
         <h1 className="text-4xl font-extrabold  text-brand/yellow">APEX</h1>
 
         <div className="flex items-center gap-12">
-          <Link href={`/edit-environment/?env=${environmentId}`}>
+          <Select
+            value={environmentId}
+            onValueChange={(value) => {
+              router.push(`/${value}/dashboard`);
+            }}
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {state.environments.map((env, index) => (
+                <SelectItem value={env?.id ? env.id : ""} key={index}>
+                  {env?.name ? env.name : ""}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {/* <Link href={`/edit-environment/?env=${environmentId}`}>
             <div className="flex border-2 bg-yellow-200 rounded-[20px]  p-2 font-semibold text-black">
               <div className="flex">Edit Environment</div>
               <div className="flex mx-1">
                 <Edit />
               </div>
             </div>
-          </Link>
+          </Link> */}
           <Popover>
             <PopoverTrigger>
               <Avatar className="h-12 w-12 border-2 border-black">

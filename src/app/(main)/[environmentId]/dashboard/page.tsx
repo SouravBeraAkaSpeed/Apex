@@ -16,8 +16,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ChatOllama } from "@langchain/community/chat_models/ollama";
 import { useEffect } from "react";
+import {
+  EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects,
+  useAppState,
+} from "@/components/providers/state-provider";
 
 const DashboardPage = ({ params }: { params: { environmentId: string } }) => {
+  const { state } = useAppState();
   // const ollamaLlm = new ChatOllama({
   //   baseUrl: "http://localhost:11434", // Default value
   //   model: "mistral", // Default value
@@ -47,7 +52,11 @@ const DashboardPage = ({ params }: { params: { environmentId: string } }) => {
               </div>
               <div className="mx-auto">
                 <p className="font-mono border border-slate-400 font-bold lg:text-lg  px-3 rounded-full text-center">
-                  {params.environmentId}
+                  {
+                    (
+                      state.currentEnvironemnt as EnvironmentWithProfilesWithRuleWithCategoryWithGroupprojects
+                    ).name
+                  }
                 </p>
               </div>
             </div>
@@ -116,8 +125,8 @@ const DashboardPage = ({ params }: { params: { environmentId: string } }) => {
                 {/* Mock data */}
                 {Array(5)
                   .fill(0)
-                  .map((index) => (
-                    <TableRow className="max-h-[20px]  truncate" key={index+index}>
+                  .map((arr, index) => (
+                    <TableRow className="max-h-[20px]  truncate" key={index}>
                       <TableCell className="font-medium max-w-[200px] truncate">
                         AI Collab
                       </TableCell>
