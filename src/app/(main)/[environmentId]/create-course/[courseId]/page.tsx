@@ -9,7 +9,7 @@ import { TEACHER_DETAILS } from "@/mockdata";
 import { Trash } from "lucide-react";
 import React from "react";
 
-const page = ({
+const Page = ({
   params,
 }: {
   params: { courseId: string; environmentId: string };
@@ -69,4 +69,4 @@ const page = ({
   );
 };
 
-export default page;
+export default Page;

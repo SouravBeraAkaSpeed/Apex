@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { courseSchema } from "@/lib/FormSchemas";
 
-const page = ({
+const Page = ({
   params,
 }: {
   params: {
@@ -77,4 +77,4 @@ const page = ({
   );
 };
 
-export default page;
+export default Page;

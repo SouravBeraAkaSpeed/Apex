@@ -9,7 +9,7 @@ import Link from "next/link";
 
 const logoStyle = "h-4 w-4";
 
-const page = ({
+const Page = ({
   params,
 }: {
   params: { courseId: string; chapterId: string };
@@ -67,4 +67,4 @@ const page = ({
   );
 };
 
-export default page;
+export default Page;
