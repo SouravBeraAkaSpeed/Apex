@@ -96,7 +96,7 @@ const Layout = ({
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   if (dataLoading)
     return (
